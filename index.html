@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <title>JeuxDeMots</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <style>
+    
+    div { border: 1px solid black;margin:15px }
+    table { solid #000;padding: 5px; }
+    td {solid #000; padding: 5px;}
+    th {padding: 5px;}
+    #conteneur { overflow: hidden}
+    #conteneur div { margin:5px;width:49.2%;float:left }
+    .whiteBackground { background-color: #fff; }
+	.grayBackground { background-color: #ccc; }
+  </style>
+  </head>
+  <body>
+    <h1 align="center">Jeux De Mots</h1>
+
+
+    <form action="envoi.php" method="post">
+
+      <p align="center">
+
+        <input type="text" name="mot" /> <input type="submit" value="Valider" />
+
+      </p>
+    </form>
+
+    <div id="conteneur">
+      <div >
+        <table border="1" cellpadding="10" cellspacing="2" width="100%" >
+          <tr>
+            <th width="33%">#</th>
+            <th width="33%">Mots</th>
+            <th width="33%">Type de relation</th>
+          </tr>
+          <?php
+
+          	if(isset($_POST['mNbAffichage'])) 
+          		$selected_val = $_POST['mNbAffichage'];
+          	else
+          		$selected_val = 50;
+
+            for($i = 0;$i <=$selected_val;$i++)
+            {
+            	if($i%2 == 1)	
+            		$color_bg = '#fff';
+            	else
+            		$color_bg = '#ccc';
+
+              	echo "
+						<tr bgcolor=".$color_bg.">
+						<td>".$i."</td>
+						<td>Pink</td>
+						<td>Gangster</td>
+						</tr>
+					";
+            }
+          ?>
+        </table>
+      </div>
+      <div >
+      	<form  method="post">
+        <p>Ordre de tri
+          <select name="orderList[]">
+            <?php 
+				if( in_array('ordreAZ', $_POST['orderList']) ) { 
+				    echo '<option value="ordreAZ" selected>A -> Z</option>';
+				} else {
+				    echo '<option value="ordreAZ">A -> Z</option>';
+				}
+
+				if( in_array('ordreZA', $_POST['orderList']) ) { 
+				    echo '<option value="ordreZA" selected>Z -> A</option>';
+				} else {
+				    echo '<option value="ordreZA">Z -> A</option>';
+				}
+
+				if( in_array('croissant', $_POST['orderList']) ) { 
+				    echo '<option value="croissant" selected>Ordre croissant</option>';
+				} else {
+				    echo '<option value="croissant">Ordre croissant</option>';
+				}
+
+				if( in_array('decroissant', $_POST['orderList']) ) { 
+				    echo '<option value="decroissant" selected>Ordre croissant</option>';
+				} else {
+				    echo '<option value="decroissant">Ordre croissant</option>';
+				}
+			?>
+          </select>
+        </p>
+
+		<p>Nombre d'élèment à afficher
+	        <select name="mNbAffichage" id="mNbAffichage">
+	          <?php
+	            for($i = 50;$i <= 1000;$i+=50)
+	            {
+	              if($i==$_POST['mNbAffichage']){
+	            		echo "<option selected=".'"'."selected".'"'." value=".$i.">".$i."</option>";
+	            	}else{
+	            		echo "<option value=".$i.">".$i."</option>";
+	            	}
+	            }
+	          ?>
+	        </select>
+        </p>
+        <p>
+        	<section>
+        		<section>Selection des relations </section>
+        		<section>
+					<select multiple name="relationList[]">
+						<?php 
+					        if( in_array('ordreAZ', $_POST['relationList']) ) { 
+					            echo '<option value="ordreAZ" selected>A -> Z</option>';
+					        } else {
+					            echo '<option value="ordreAZ">A -> Z</option>';
+					        }
+
+					        if( in_array('ordreZA', $_POST['relationList']) ) { 
+					            echo '<option value="ordreZA" selected>Z -> A</option>';
+					        } else {
+					            echo '<option value="ordreZA">Z -> A</option>';
+					        }
+
+					        if( in_array('croissant', $_POST['relationList']) ) { 
+					            echo '<option value="croissant" selected>Ordre croissant</option>';
+					        } else {
+					            echo '<option value="croissant">Ordre croissant</option>';
+					        }
+
+					        if( in_array('decroissant', $_POST['relationList']) ) { 
+					            echo '<option value="decroissant" selected>Ordre croissant</option>';
+					        } else {
+					            echo '<option value="decroissant">Ordre croissant</option>';
+					        }
+					   	?>
+					</select>
+				</section>
+			</section>
+        </p>
+         <input type="submit" value="Refresh" />
+    	</form>
+      </div>
+    </div>
+  </body>
+</html>
