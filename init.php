@@ -8,5 +8,7 @@
 	//Relation list
 	$arrayRelation = array();
 	$arrayType = array();
+	$relationList = array();
+	$typeList = array();
 
 ?>

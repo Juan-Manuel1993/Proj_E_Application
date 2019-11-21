@@ -1,3 +1,66 @@
+<?php 
+	if ( empty(session_id()) ) session_start();
+
+	class Word {
+		public $weight;
+		private $t_relation;
+		private $t_node;
+		private $word;
+
+		public function __construct($weight, $t_relation,$t_node,$word) 
+		{
+			$this->setWeight($weight);
+			$this->setTRelation($t_relation);
+			$this->setTNode($t_node);
+			$this->setWord($word);
+		}
+
+		public function getWeight()
+		{
+			return $this->weight;
+		}
+
+		public function setWeight($weight)
+		{
+			$this->weight = $weight;
+		}
+
+		public function getTRelation()
+		{
+			return $this->t_relation;
+		}
+
+		public function setTRelation($t_relation)
+		{
+			$this->t_relation = $t_relation;
+		}
+
+		public function getTNode()
+		{
+			return $this->t_node;
+		}
+
+		public function setTNode($t_node)
+		{
+			$this->t_node = $t_node;
+		}
+
+		public function getWord()
+		{
+			return $this->word;
+		}
+
+		public function setWord($word)
+		{
+			$this->word = $word;
+		}
+	}
+
+	$jdm_result = array();
+	array_push($jdm_result,new Word("ok","bob","ca","va"));
+	array_push($jdm_result,new Word("hj","dfg","ca","hjk"));
+
+?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -8,6 +71,9 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="tri.js"></script>
+  <script scr="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+  <script type="text/javascript" scr="mscript.js"></script>
+
 	<?php include 'init.php';?>
   <style>
     
@@ -70,11 +136,12 @@
   <body>
 
     <h1 align="center">Jeux De Mots</h1>
-    <form action="envoi.php" method="post">
+    <form method="post">
 
       <p align="center">
 
-        <input type="text" name="mot" /> <input type="submit" value="Valider" />
+        <input type="text" id="mot" /> 
+        <button id="formsubmit">Valider</button>
 
       </p>
     </form>
@@ -121,26 +188,44 @@
             	else
             		$color_bg = '#ccc';
 
-            	if( (in_array ($testRelation, $_POST['relationList']) && in_array ($testType, $_POST['typeList'])) || !isset($_POST['relationList'])){
+				if($jdm_result[$i] != null){
+	            	if( ( in_array ($jdm_result[$i]->getTRelation(), $_POST['relationList']) && in_array ($jdm_result[$i]->getTNode(), $_POST['typeList'])) || !isset($_POST['relationList'])){
 
-	              	echo "
-							<tr bgcolor=".$color_bg.">
-							<td>".$i."</td>
-							<td>Pink</td>
-							<td>".$testRelation."</td>
-							<td>".$testType."</td>
-							</tr>
-						";
+		              	echo "
+								<tr bgcolor=".$color_bg.">
+								<td>".$jdm_result[$i]->getWeight()."</td>
+								<td>".$jdm_result[$i]->getWord()."</td>
+								<td>".$jdm_result[$i]->getTRelation()."</td>
+								<td>".$jdm_result[$i]->getTNode()."</td>
+								</tr>
+							";
+					}
+
+					if(!in_array($jdm_result[$i]->getTRelation(), $arrayRelation))
+						$arrayRelation[$jdm_result[$i]->getTRelation()] = $jdm_result[$i]->getTRelation();
+
+					if(!in_array($jdm_result[$i]->getTNode(), $arrayType))
+						$arrayType[$jdm_result[$i]->getTNode()] = $jdm_result[$i]->getTNode();
 				}
-
-				if(!in_array($testRelation, $arrayRelation))
-					$arrayRelation[$testRelation] = $testRelation;
-
-				if(!in_array($testType, $arrayType))
-					$arrayType[$testType] = $testType;
             }
           ?>
           </tbody>
+
+          	<script>
+			$(document).ready(function(){
+			  $('#formsubmit').click(function(){
+			    $.post("envoi.php",
+			    {
+			      mot: $('#mot').val()
+			    },
+			    function(data){
+			    	//var arrayFromPHP = <?php echo json_encode($fruits); ?>;
+			    	//$('#response').html(data);
+			      	alert("Data: " + data);
+			    });
+			  });
+			});
+			</script>
         </table>
       </div>
       <div >
@@ -195,12 +280,10 @@
 				</section>
 			</section>
         </p>
-         <input type="submit" value="Appliquer" />
+        <input type="submit" value="Appliquer" />
     	</form>
       </div>
     </div>
-
-
-
+    <textarea id="response" style="width:200px; height: 200px; resize: none;"></textarea>
   </body>
 </html>
