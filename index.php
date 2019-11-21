@@ -1,5 +1,10 @@
 <?php 
-	if ( empty(session_id()) ) session_start();
+
+	require('envoi.php');
+	include 'init.php';
+
+	if ( empty(session_id()) ) 
+		session_start();
 
 	class Word {
 		public $weight;
@@ -57,8 +62,8 @@
 	}
 
 	$jdm_result = array();
-	array_push($jdm_result,new Word("ok","bob","ca","va"));
-	array_push($jdm_result,new Word("hj","dfg","ca","hjk"));
+	
+	$data = isset($_POST['mot']) ? getData($_POST['mot']) : null;
 
 ?>
 <!DOCTYPE html>
@@ -74,7 +79,6 @@
   <script scr="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" scr="mscript.js"></script>
 
-	<?php include 'init.php';?>
   <style>
     
     div { border: 1px solid black;margin:15px }
@@ -85,7 +89,6 @@
     #conteneur div { margin:5px;width:49.2%;float:left }
     .whiteBackground { background-color: #fff; }
 	.grayBackground { background-color: #ccc; }
-
 
 	/* Classe obligatoire pour les flèches */
 	.flecheDesc {
@@ -140,8 +143,8 @@
 
       <p align="center">
 
-        <input type="text" id="mot" /> 
-        <button id="formsubmit">Valider</button>
+        <input type="text" id="mot" name="mot"/> 
+        <input type="submit" id="formsubmit" value="Valider">
 
       </p>
     </form>
@@ -159,7 +162,12 @@
           </thead>
           <tbody>
           <?php
-
+          	if ($data !== null)
+          	{
+          		foreach ($data as $key => $value) {
+          			$jdm_result[] = new Word($key,str_replace(array("'",$_POST['mot'],">"),"",$value),"champ2","champ3");
+          		}
+          	}
           	if(isset($_POST['mNbAffichage'])) 
           		$selected_val = $_POST['mNbAffichage'];
           	else
@@ -211,21 +219,6 @@
           ?>
           </tbody>
 
-          	<script>
-			$(document).ready(function(){
-			  $('#formsubmit').click(function(){
-			    $.post("envoi.php",
-			    {
-			      mot: $('#mot').val()
-			    },
-			    function(data){
-			    	//var arrayFromPHP = <?php echo json_encode($fruits); ?>;
-			    	//$('#response').html(data);
-			      	alert("Data: " + data);
-			    });
-			  });
-			});
-			</script>
         </table>
       </div>
       <div >
@@ -284,6 +277,7 @@
     	</form>
       </div>
     </div>
-    <textarea id="response" style="width:200px; height: 200px; resize: none;"></textarea>
+
+
   </body>
 </html>
