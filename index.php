@@ -12,7 +12,7 @@
 		private $t_node;
 		private $word;
 
-		public function __construct($weight, $t_relation,$t_node,$word) 
+		public function __construct($weight, $word,$t_relation,$t_node) 
 		{
 			$this->setWeight($weight);
 			$this->setTRelation($t_relation);
@@ -63,13 +63,19 @@
 
 	$jdm_result = array();
 	
-	$data = isset($_POST['mot']) ? getData($_POST['mot']) : null;
-
+	if(isset($_POST['mot'])){
+		$_SESSION['mot'] = $_POST['mot'];
+		$data = getData($_POST['mot']);
+		$word = $_POST['mot'];
+	}elseif (isset($_SESSION['mot'])) {
+		$word = $_SESSION['mot'];
+		$data = getData($word);
+	}
 ?>
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <title>JeuxDeMots</title>
+  <title>Jeux De Mots</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -143,8 +149,8 @@
 
       <p align="center">
 
-        <input type="text" id="mot" name="mot"/> 
-        <input type="submit" id="formsubmit" value="Valider">
+        <input type="text" id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> /> 
+        <input type="submit" id="formsubmit" value="Rechercher">
 
       </p>
     </form>
@@ -165,7 +171,7 @@
           	if ($data !== null)
           	{
           		foreach ($data as $key => $value) {
-          			$jdm_result[] = new Word($key,str_replace(array("'",$_POST['mot'],">"),"",$value),"champ2","champ3");
+          			$jdm_result[] = new Word($key,str_replace(array("'",$word,">"),"",$value),"champ2","champ3");
           		}
           	}
           	if(isset($_POST['mNbAffichage'])) 
@@ -175,21 +181,6 @@
 
             for($i = 0;$i < $selected_val;$i++)
             {
-            	if($i <= 3){
-					$testRelation="r1";
-				}else if($i > 3 && $i < 5){
-					$testRelation = "r2";
-				}else{
-					$testRelation = "r";
-				}
-
-				if($i <= 10){
-					$testType="t1";
-				}else if($i > 10 && $i < 13){
-					$testType = "t2";
-				}else{
-					$testType = "t";
-				}
 
             	if($i%2 == 1)	
             		$color_bg = '#fff';
@@ -242,7 +233,7 @@
         	<section>
         		<section>Selection des relations </section>
         		<section>
-					<select multiple name="relationList[]">
+					<select multiple name="relationList[]" style="width: 70px">
 					   	<?php 
 							foreach ($arrayRelation as $key => $value) {
 						        if( in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) { 
@@ -259,7 +250,7 @@
 			<section>
         		<section>Selection des types </section>
         		<section>
-					<select multiple name="typeList[]">
+					<select multiple name="typeList[]" style="width: 70px">
 					   	<?php 
 							foreach ($arrayType as $key => $value) {
 						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) { 
