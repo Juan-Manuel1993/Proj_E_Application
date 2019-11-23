@@ -266,17 +266,17 @@
 			<section>
         		<section>Selection des raffinements </section>
         		<section>
-					<select name="raffList[]" style="width: 70px">
-					   	<?php 
+					<select name="raff" id="raff">
+			          	<?php 
 							foreach ($jdm_result as $key => $value) {
-						        if( in_array($value, $_POST['raffList']) || !isset($_POST['raffList'])) { 
+						        if( !isset($_POST['raff'])) { 
 						            echo '<option value="'.$value.'" selected>'.$value.'</option>';
 						        } else {
 						            echo '<option value="'.$value.'">'.$value.'</option>';
 						        }
 						    }
 					   	?>
-					</select>
+			        </select>
 				</section>
 			</section>
         </p>
