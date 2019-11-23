@@ -263,38 +263,6 @@
 					</select>
 				</section>
 			</section>
-			<section>
-        		<section>Selection des types </section>
-        		<section>
-					<select multiple name="typeList[]" style="width: 70px">
-					   	<?php 
-							foreach ($arrayType as $key => $value) {
-						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) { 
-						            echo '<option value="'.$key.'" selected>'.$value.'</option>';
-						        } else {
-						            echo '<option value="'.$key.'">'.$value.'</option>';
-						        }
-						    }
-					   	?>
-					</select>
-				</section>
-			</section>
-			<section>
-        		<section>Selection des raffs </section>
-        		<section>
-					<select multiple name="raffList[]" style="width: 70px">
-					   	<?php 
-							foreach ($jdm_result as $key => $value) {
-						        if( in_array($key, $_POST['raffList']) || !isset($_POST['raffList'])) { 
-						            echo '<option value="'.$value.'" selected>'.$value.'</option>';
-						        } else {
-						            echo '<option value="'.$value.'">'.$value.'</option>';
-						        }
-						    }
-					   	?>
-					</select>
-				</section>
-			</section>
         </p>
         <input type="submit" value="Appliquer" />
     	</form>
