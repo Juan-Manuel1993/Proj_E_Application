@@ -161,7 +161,7 @@
         	<thead>
           <tr>
             <th data-tri="1" class="selection" data-type="num" width="10%">#</th>
-            <th width="30%">Mots</th>
+            <th width="30%">Mot</th>
             <th width="30%">Type de relation</th>
             <th width="30%">Type de noeud</th>
           </tr>
