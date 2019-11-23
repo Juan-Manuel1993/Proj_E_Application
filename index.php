@@ -270,11 +270,7 @@
 					<select multiple name="raffList[]" style="width: 70px">
 					   	<?php 
 							foreach ($jdm_result as $key => $value) {
-						        if( in_array($key, $_POST['raffList']) || !isset($_POST['raffList'])) { 
-						            echo '<option value="'.$value.'" selected>'.$value.'</option>';
-						        } else {
-						            echo '<option value="'.$value.'">'.$value.'</option>';
-						        }
+						        echo '<option value="'.$value.'">'.$value.'</option>';
 						    }
 					   	?>
 					</select>
