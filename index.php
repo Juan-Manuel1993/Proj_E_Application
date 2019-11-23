@@ -75,7 +75,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <title>Jeux De Mots</title>
+  <title>Jeux Mots</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -161,7 +161,7 @@
         	<thead>
           <tr>
             <th data-tri="1" class="selection" data-type="num" width="10%">#</th>
-            <th width="30%">Mots</th>
+            <th width="30%">Mot</th>
             <th width="30%">Type de relation</th>
             <th width="30%">Type de noeud</th>
           </tr>
@@ -233,7 +233,7 @@
         	<section>
         		<section>Selection des relations </section>
         		<section>
-					<select multiple name="relationList[]" style="width: 70px">
+					<select multiple name="relationList[]" style="width: min-content">
 					   	<?php 
 							foreach ($arrayRelation as $key => $value) {
 						        if( in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) { 
@@ -250,7 +250,7 @@
 			<section>
         		<section>Selection des types </section>
         		<section>
-					<select multiple name="typeList[]" style="width: 70px">
+					<select multiple name="typeList[]" style="width: min-content">
 					   	<?php 
 							foreach ($arrayType as $key => $value) {
 						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) { 
@@ -263,6 +263,25 @@
 					</select>
 				</section>
 			</section>
+
+			<section>
+        		<section>Selection des raffinements possible</section>
+        		<section>
+					<select multiple name="raffList[]" style="width: min-content">
+					   	<?php 
+							foreach ($jdm_result as $key => $value) {
+						        
+						        if( in_array($key, $_POST['raffList']) || !isset($_POST['raffList'])) { 
+						            echo '<option value="'.$value->getWord().'"selected>'.$value->getWord().'</option>';
+						        } else {
+						            echo '<option value="'.$value->getWord().'">'.$value->getWord().'</option>';
+						        }
+						    }
+					   	?>
+					</select>
+				</section>
+			</section>
+
         </p>
         <input type="submit" value="Appliquer" />
     	</form>
