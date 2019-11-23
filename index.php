@@ -233,7 +233,7 @@
         	<section>
         		<section>Selection des relations </section>
         		<section>
-					<select multiple name="relationList[]" style="width: 70px">
+					<select multiple name="relationList[]" style="width: min-content">
 					   	<?php 
 							foreach ($arrayRelation as $key => $value) {
 						        if( in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) { 
@@ -250,7 +250,7 @@
 			<section>
         		<section>Selection des types </section>
         		<section>
-					<select multiple name="typeList[]" style="width: 70px">
+					<select multiple name="typeList[]" style="width: min-content">
 					   	<?php 
 							foreach ($arrayType as $key => $value) {
 						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) { 
@@ -265,12 +265,17 @@
 			</section>
 
 			<section>
-        		<section>Selection des types </section>
+        		<section>Selection des raffinements possible</section>
         		<section>
-					<select multiple name="typeList[]" style="width: 70px">
+					<select multiple name="typeList[]" style="width: min-content">
 					   	<?php 
 							foreach ($jdm_result as $key => $value) {
-						        echo '<option value="'.$key.'">'.$value->getWord().'</option>';
+						        
+						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) { 
+						            echo '<option value="'.$value->getWord().'"selected>'.$value->getWord().'</option>';
+						        } else {
+						            echo '<option value="'.$value->getWord().'">'.$value->getWord().'</option>';
+						        }
 						    }
 					   	?>
 					</select>
