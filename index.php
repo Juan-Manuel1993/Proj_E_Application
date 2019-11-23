@@ -269,7 +269,7 @@
         		<section>
 					<select multiple name="typeList[]" style="width: 70px">
 					   	<?php 
-							foreach ($arrayType as $key => $value) {
+							foreach ($jdm_result as $key => $value) {
 						        echo '<option value="'.$key.'">'.$value->getWord().'</option>';
 						    }
 					   	?>
