@@ -1,6 +1,6 @@
 <?php
 
-	session_start();	
+	session_start();
 	// afficher incrémentalement
 	// sauvegarder les données en cache
 	// gérer la durée de vie du cache
@@ -26,42 +26,50 @@
 	xdebug.default_enable = 1
 	xdebug.max_nesting_level = 200
 	*/
-	function raffinement($arg){
 
-		$c = "&rel=";
+		function getdata($arg){
 
-		$p = "http://www.jeuxdemots.org/rezo-dump.php?gotermsubmit=Chercher&gotermrel=";
+			$postfields = http_build_query(array(
+			'gotermrel' => $arg
+		));
 
-		$e = $p.$arg.$c;
+			$url = "http://www.jeuxdemots.org/rezo-dump.php";
 
-		$html = file_get_contents($e);
+			$options = array(
+				'http' => array(
+				'header'  => "Content-type: application/x-www-form-urlencoded",
+				'method'  => 'POST',
+				'content' => $postfields,
+				),
+			);
+
+			$context = stream_context_create( $options );
+
+			$result = file_get_contents( $url, false, $context );
+
+			return $result;
+
+		}
+		$i=$_POST['mot']; // Récupère ce que l'utilisateur a entré
 
 
-		$definitionmot= explode('<def>',$html); 
+		$result = getdata($i);
 
-
-		$definitionmots = explode('</def>', $definitionmot[1]);
-
-		return $arg.":".$definitionmots[0];
-	}
-
-	function getData($word){
-		$i=$word; // Récupère ce que l'utilisateur a entré
 		//$file = "noeuds$i.txt";
+
+
 		$noeuds = "./noeuds$i.txt"; // fichier qui contient tous les noeuds
 		$rs ="./rs$i.txt"; // fichier qui contient toutes les relations sortantes
 		$re ="./re$i.txt"; // fichier qui contient toutes les relations entrantes
 		$ty ="./ty$i.txt"; // fichier qui contient les types de relations
-		$c = "&rel=";
-		$p = "http://www.jeuxdemots.org/rezo-dump.php?gotermsubmit=Chercher&gotermrel=";
-		$e = $p.$i.$c; // contient le lien de la page du prof avec le mot tapé par l'utilisateur
 
-		$html = file_get_contents($e);
-		$html = utf8_encode($html);
-		$html = html_entity_decode($html,ENT_QUOTES,"UTF-8");
+		//iconv(mb_detect_encoding($result, mb_detect_order(), true), "UTF-8", $result);
+
+		//$html = utf8_encode($result);
+		//$html = html_entity_decode($result,ENT_QUOTES,"UTF-8");
 
 		// récupérer la définition du mot
-		$definitionmot= explode('<def>',$html); 
+		$definitionmot= explode('<def>',$result);
 
 		$definitionmots = explode('</def>', $definitionmot[1]);
 		//$definitionmots[0] contient toutes les définitions du mot
@@ -69,27 +77,27 @@
 		//print_r($definitionmots[0]);
 
 		// Découper le contenu de la page par <code>
-		$decoupeparcode = explode('<CODE>',$html); 
+		$decoupeparcode = explode('<CODE>',$result);
 
 
 		$apresformatedname = explode('formated name\'',$decoupeparcode[1]); // récupérer tout ce qui est après le mot et avant  " formated name " dans le texte. Ce qui correspond à tout ce dont on a besoin à partir de noeud
 
 		// Découper apresformatedname[1] par //" tous les noeuds sont dans $getnoeud[0]
-		$getnoeud = explode('//',$apresformatedname[1]); 
+		$getnoeud = explode('//',$apresformatedname[1]);
 
 		//toutes les types de relations sont dans $gettyperelation[1]
-		$gettyperelation = explode('rthelp\'',$getnoeud[1]); 
+		$gettyperelation = explode('rthelp\'',$getnoeud[1]);
 
-		// recupère tout le texte apres "formated name" 
+		// recupère tout le texte apres "formated name"
 		//contient toutes les relations
-		$touterelation = explode('les relations sortantes : r;rid;node1;node2;type;w ',$apresformatedname[1]);  
+		$touterelation = explode('les relations sortantes : r;rid;node1;node2;type;w ',$apresformatedname[1]);
 
 		// découpe le texte par // pour récupérer les relations
-		$getrelationsortante = explode('//',$touterelation[1]);  
+		$getrelationsortante = explode('//',$touterelation[1]);
 		//$getrelationsortante[0] contient toutes les relations sortantes
 
-		// $getrelationentrante[1] contient toutes les relations entrantes 
-		$getrelationentrante = explode('les relations entrantes : r;rid;node1;node2;type;w ',$getrelationsortante[1]); 
+		// $getrelationentrante[1] contient toutes les relations entrantes
+		$getrelationentrante = explode('les relations entrantes : r;rid;node1;node2;type;w ',$getrelationsortante[1]);
 
 		// enlever le r; du début des relations sortantes
 		//$getrelationsortante2 nouvelle table de relation sortante
@@ -141,7 +149,7 @@
 			// si c'est un string je récupère le string sans les identifiants (nettoyage)
 			if (is_string($b[4])) {
 				$node[$b[0]] = $b[4];
-			}else{	
+			}else{
 				// recupère nom du noeud
 				$node[$b[0]] = $b[1];
 			}
@@ -152,7 +160,7 @@
 
 		#je supprime de la table des noeuds, tous les noeuds qui ne sont pas dans la table de relation sortante
 		foreach ($node as $key => $value) {
-			if (!in_array($key, $relationsortante2)) {	
+			if (!in_array($key, $relationsortante2)) {
 				unset($node[$key]);
 			}
 		}
@@ -162,20 +170,24 @@
 			$relationsortante2[$key] = $node[$value];
 		}
 
-		$raff = array();
+		//$raff = array();
 
 		foreach ($typerelation as $key => $value) {
 			// création d'un tableau de noeuds liés par la relation r_raff_sem au noeud cherché
-			if($typerelation[$key] == 1){	
-				$raff[] = $relationsortante2[$key];
+			if($typerelation[$key] == 1){
+				$po = explode('\'', $relationsortante2[$key]);
+				$raff[] = $po[1];
 			}
 		}
+
+		//print_r($raff);
+
 
 		foreach ($typerelation as $key => $value) {
 			$typerelation[$key] = $type[$value];
 		}
 
-		//print_r($typerelation);	
+		//print_r($typerelation);
 		ksort($typerelation);
 
 		#tri par clé croissant
@@ -190,18 +202,26 @@
 			$relationsortante2[$key] =  $typerelation[$key].",".$relationsortante2[$key].",".$relationsortante[$key].",";
 		}
 
-		//echo "Salut";
-		return $raff;
 
-		//  raffinement
-		/*for ($i=0; $i <count($raff) ; $i++) {
-			$po = explode('\'',$raff[$i]);
-			$toutdef[] = raffinement($po[1]);
-		}*/
+
+		$toutdef = array_map('raffinement', $raff);
+		print_r($toutdef);
+
+
+		function raffinement($arg){
+
+
+		$html = getdata($arg);
+
+
+		$definitionmot= explode('<def>',$html);
+
+
+		$definitionmots = explode('</def>', $definitionmot[1]);
+
+		return $definitionmots[0]."<br>";
 	}
 
-
-	//print_r($toutdef);
 
 	/*
 	file_put_contents($noeuds,$p3[0]);
