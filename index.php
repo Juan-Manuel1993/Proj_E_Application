@@ -264,19 +264,19 @@
 				</section>
 			</section>
 			<section>
-        		<section>Selection des raffinements </section>
+        		<section>Selection des types </section>
         		<section>
-					<select name="raff" id="raff">
-			          	<?php 
+					<select multiple name="raffList[]" style="width: 70px">
+					   	<?php 
 							foreach ($jdm_result as $key => $value) {
-						        if( !isset($_POST['raff'])) { 
+						        if( in_array($key, $_POST['raffList']) || !isset($_POST['raffList'])) { 
 						            echo '<option value="'.$value.'" selected>'.$value.'</option>';
 						        } else {
 						            echo '<option value="'.$value.'">'.$value.'</option>';
 						        }
 						    }
 					   	?>
-			        </select>
+					</select>
 				</section>
 			</section>
         </p>
