@@ -1,10 +1,10 @@
-<?php 
+<?php
 
-	
+
 	require('envoi.php');
 	include 'init.php';
 
-	if ( empty(session_id()) ) 
+	if ( empty(session_id()) )
 		session_start();
 
 	class Word {
@@ -13,7 +13,7 @@
 		private $t_node;
 		private $word;
 
-		public function __construct($weight, $word,$t_relation,$t_node) 
+		public function __construct($weight, $word,$t_relation,$t_node)
 		{
 			$this->setWeight($weight);
 			$this->setTRelation($t_relation);
@@ -63,7 +63,7 @@
 	}
 
 	$jdm_result = array();
-	
+
 	if(isset($_POST['mot'])){
 		$_SESSION['mot'] = $_POST['mot'];
 		$data = getdata($_POST['mot']);
@@ -90,7 +90,7 @@
   <script type="text/javascript" scr="mscript.js"></script>
 
   <style>
-    
+
     div { border: 1px solid black;margin:15px }
     table { solid #000;padding: 5px; }
     td {solid #000; padding: 5px;}
@@ -102,8 +102,8 @@
 
 	/* Classe obligatoire pour les flèches */
 	.flecheDesc {
-	  width: 0; 
-	  height: 0; 
+	  width: 0;
+	  height: 0;
 	  float:right;
 	  margin: 10px;
 	  border-left: 5px solid transparent;
@@ -111,7 +111,7 @@
 	  border-bottom: 5px solid black;
 	}
 	.flecheAsc {
-	  width: 0; 
+	  width: 0;
 	  height: 0;
 	  float:right;
 	  margin: 10px;
@@ -153,7 +153,7 @@
 
       <p align="center">
 
-        <input type="text" id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> /> 
+        <input type="text" id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> />
         <input type="submit" id="formsubmit" value="Rechercher">
 
       </p>
@@ -173,7 +173,7 @@
           <tbody>
           <?php
 
-			if(isset($_POST['mNbAffichage'])) 
+			if(isset($_POST['mNbAffichage']))
           		$selected_val = $_POST['mNbAffichage'];
           	else
           		$selected_val = $init_min_tuples;
@@ -197,7 +197,7 @@
             for($i = 0;$i < $selected_val;$i++)
             {
 
-            	if($i%2 == 1)	
+            	if($i%2 == 1)
             		$color_bg = '#fff';
             	else
             		$color_bg = '#ccc';
@@ -249,10 +249,10 @@
         		<section>Selection des relations </section>
         		<section>
 					<select multiple name="relationList[]" style="width: min-content">
-					   	<?php 
+					   	<?php
 							foreach ($arrayRelation as $key => $value) {
-						        if( in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) { 
-						            echo '<option value="'.$key.'" selected>'.$value.'</option>';
+						        if( in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) {
+						            echo '<option value="'.$key.'" selected="selected">'.$value.'</option>';
 						        } else {
 						            echo '<option value="'.$key.'">'.$value.'</option>';
 						        }
@@ -266,9 +266,9 @@
         		<section>Selection des types </section>
         		<section>
 					<select multiple name="typeList[]" style="width: min-content">
-					   	<?php 
+					   	<?php
 							foreach ($arrayType as $key => $value) {
-						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) { 
+						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) {
 						            echo '<option value="'.$key.'" selected>'.$value.'</option>';
 						        } else {
 						            echo '<option value="'.$key.'">'.$value.'</option>';
@@ -283,10 +283,10 @@
         		<section>Selection des raffinements possible</section>
         		<section>
 					<select multiple name="raffList[]" style="width: min-content">
-					   	<?php 
+					   	<?php
 							foreach ($jdm_result as $key => $value) {
-						        
-						        if( in_array($key, $_POST['raffList']) ) { 
+
+						        if( in_array($key, $_POST['raffList']) ) {
 						            echo '<option value="'.$value->getWord().'" selected>'.$value->getWord().'</option>';
 						        } else {
 						            echo '<option value="'.$value->getWord().'">'.$value->getWord().'</option>';
