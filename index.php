@@ -164,7 +164,7 @@
         <table border="1" cellpadding="10" class="avectri" cellspacing="2" width="100%" >
         	<thead>
           <tr>
-            <th data-tri="1" class="selection" data-type="num" width="10%">#</th>
+            <th data-tri="1" class="selection" data-type="num" width="10%">Importance</th>
             <th width="30%">Mot</th>
             <th width="30%">Type de relation</th>
             <th width="30%">Type de noeud</th>

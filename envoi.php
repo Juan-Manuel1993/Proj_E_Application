@@ -683,7 +683,7 @@
 		return null;
 	}
 
-	function array_sort($array, $on, $order=SORT_ASC)
+	function array_sort($array, $on, $order=SORT_DESC)
 	{
 	    $new_array = array();
 	    $sortable_array = array();
