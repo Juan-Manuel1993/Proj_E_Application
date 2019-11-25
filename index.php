@@ -1,5 +1,6 @@
 <?php 
 
+	
 	require('envoi.php');
 	include 'init.php';
 
@@ -70,7 +71,10 @@
 	}elseif (isset($_SESSION['mot'])) {
 		$word = $_SESSION['mot'];
 		$data = getdata($word);
+	}else{
+		$data = getdata('chat');
 	}
+
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -182,10 +186,10 @@
 
           		$i=0;
           		foreach ($entries as $key => $tab) {
-          			$jdm_result[] = new Word($i,$tab['name'],getNodeType($nodestype,$tab['type']),"?");
+          			$jdm_result[] = new Word($tab['w'],str_replace("'","",$tab['name']),getNodeType($nodestype,$tab['type'])['ntname'],"?");
           			$i++;
 
-          			if(i >= $selected_val)
+          			if($i >= $selected_val)
           				break;
           		}
           	}
