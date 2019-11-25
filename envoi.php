@@ -656,12 +656,6 @@
 
 	/////////////////////
 
-	$i = 'chien';
-	$data = getdata($i);
-
-	
-
-	print_r(getEntries($data));
 	//////////////////////
 	/*
 	file_put_contents($noeuds,$p3[0]);
