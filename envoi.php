@@ -611,7 +611,7 @@
 		$regexAll = '/([\n]*e;\d+;[^\n]+;\d+;\d+(;[^\n]+|))/u';
 		$regexSingle = '/e;(?P<eid>\d+);(?P<name>[^.]+);(?P<type>\d+);(?P<w>\d*)(;(?P<formated_name>[^\n]+)|)/u';
 
-		return getToken($string[0],$regexAll,$regexSingle);
+		return array_sort(getToken($string[0],$regexAll,$regexSingle),'w',SORT_DESC);
 	}
 
 	function getNodesTypes($data){
@@ -719,11 +719,7 @@
 	}
 	/////////////////////
 
-	$i = 'chat';
-	$data = getdata($i);
 
-	$entries = array_sort(getEntries($data), 'w', SORT_DESC);
-	print_r($entries);
 	//////////////////////
 	/*
 	file_put_contents($noeuds,$p3[0]);
