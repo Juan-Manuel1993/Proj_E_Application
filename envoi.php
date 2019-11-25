@@ -1,5 +1,6 @@
 <?php
 
+
 	session_start();
 	// afficher incrémentalement
 	// sauvegarder les données en cache
