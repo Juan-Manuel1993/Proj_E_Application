@@ -180,8 +180,17 @@
 
           	if ($data !== null)
           	{
-          		foreach ($data as $key => $value) {
-          			$jdm_result[] = new Word($key,str_replace(array("'",$word,">"),"",$value),"champ2","champ3");
+          		$entries = getEntries($data);
+          		$nodestype = getNodesTypes($data);
+          		$relationstypes = getRelationsTypes($data);
+
+          		$i=0;
+          		foreach ($entries as $key => $tab) {
+          			$jdm_result[] = new Word($tab['w'],str_replace("'","",$tab['name']),getNodeType($nodestype,$tab['type'])['ntname'],"?");
+          			$i++;
+
+          			if($i >= $selected_val)
+          				break;
           		}
           	}
 
