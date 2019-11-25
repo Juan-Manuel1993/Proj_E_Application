@@ -65,11 +65,11 @@
 	
 	if(isset($_POST['mot'])){
 		$_SESSION['mot'] = $_POST['mot'];
-		$data = getData($_POST['mot']);
+		$data = getdata($_POST['mot']);
 		$word = $_POST['mot'];
 	}elseif (isset($_SESSION['mot'])) {
 		$word = $_SESSION['mot'];
-		$data = getData($word);
+		$data = getdata($word);
 	}
 ?>
 <!DOCTYPE html>
@@ -168,16 +168,27 @@
           </thead>
           <tbody>
           <?php
-          	if ($data !== null)
-          	{
-          		foreach ($data as $key => $value) {
-          			$jdm_result[] = new Word($key,str_replace(array("'",$word,">"),"",$value),"champ2","champ3");
-          		}
-          	}
-          	if(isset($_POST['mNbAffichage'])) 
+
+			if(isset($_POST['mNbAffichage'])) 
           		$selected_val = $_POST['mNbAffichage'];
           	else
           		$selected_val = $init_min_tuples;
+
+          	if ($data !== null)
+          	{
+          		$entries = getEntries($data);
+          		$nodestype = getNodesTypes($data);
+          		$relationstypes = getRelationsTypes($data);
+
+          		$i=0;
+          		foreach ($entries as $key => $tab) {
+          			$jdm_result[] = new Word($i,$tab['name'],getNodeType($nodestype,$tab['type']),"?");
+          			$i++;
+
+          			if(i >= $selected_val)
+          				break;
+          		}
+          	}
 
             for($i = 0;$i < $selected_val;$i++)
             {
