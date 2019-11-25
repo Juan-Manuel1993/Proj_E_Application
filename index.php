@@ -271,8 +271,8 @@
 					   	<?php 
 							foreach ($jdm_result as $key => $value) {
 						        
-						        if( in_array($key, $_POST['raffList']) || !isset($_POST['raffList'])) { 
-						            echo '<option value="'.$value->getWord().'"selected>'.$value->getWord().'</option>';
+						        if( in_array($key, $_POST['raffList']) ) { 
+						            echo '<option value="'.$value->getWord().'" selected>'.$value->getWord().'</option>';
 						        } else {
 						            echo '<option value="'.$value->getWord().'">'.$value->getWord().'</option>';
 						        }
