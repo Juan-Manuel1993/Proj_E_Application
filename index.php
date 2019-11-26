@@ -164,10 +164,10 @@
         <table border="1" cellpadding="10" class="avectri" cellspacing="2" width="100%" >
         	<thead>
           <tr>
-            <th data-tri="0" class="selection" data-type="num" width="10%">Importance</th>
-            <th width="30%">Mot</th>
-            <th width="30%">Type de relation</th>
-            <th width="30%">Type de noeud</th>
+            <th data-tri="0" class="selection" style="width: min-content" data-type="num" width="10%">Importance</th>
+            <th style="width: min-content">Mot</th>
+            <th style="width: min-content">Type de relation</th>
+            <th style="width: min-content">Type de noeud</th>
           </tr>
           </thead>
           <tbody>
@@ -181,12 +181,13 @@
           	if ($data !== null)
           	{
           		$entries = getEntries($data);
-          		$nodestype = getNodesTypes($data);
+          		$nodestypes = getNodesTypes($data);
           		$relationstypes = getRelationsTypes($data);
+          		$incomingrelations = getIncomingRelations($data);
 
           		$i=0;
           		foreach ($entries as $key => $tab) {
-          			$jdm_result[] = new Word($tab['w'],str_replace("'","",$tab['name']),getNodeType($nodestype,$tab['type'])['ntname'],"?");
+          			$jdm_result[] = new Word($tab['w'],str_replace("'","",$tab['name']),getRelationType($relationstypes,getIncomingRelation($incomingrelations,$tab['eid'])['type'])['trname'],"?");
           			$i++;
 
           			if($i >= $selected_val)
