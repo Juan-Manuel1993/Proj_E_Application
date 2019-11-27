@@ -253,7 +253,7 @@
 					   	<?php
 							foreach ($arrayRelation as $key => $value) {
 						        if( in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) {
-						            echo '<option value="'.$key.'" selected="selected">'.$value.'</option>';
+						            echo '<option value="'.$key.'" selected>'.$value.'</option>';
 						        } else {
 						            echo '<option value="'.$key.'">'.$value.'</option>';
 						        }
