@@ -189,7 +189,12 @@
 
                   $i=0;
                   foreach ($entries as $key => $tab) {
-                      $jdm_result[] = new Word($tab['w'], str_replace("'", "", $tab['name']), getRelationType($relationstypes, getIncomingRelation($incomingrelations, $tab['eid'])['type'])['trname'], getNodeType($nodestypes, getEntrie($entries, $tab['eid'])['type']));
+                      $jdm_result[] = new Word(
+                          $tab['w'],
+                          str_replace("'", "", $tab['name']),
+                          getRelationType($relationstypes, getIncomingRelation($incomingrelations, $tab['eid'])['type'])['trname'],
+                          getNodeType($nodestypes, getEntrie($entries, $tab['eid'])['type'])['ntname']
+                      );
                       $i++;
 
                       if ($i >= $selected_val) {
