@@ -75,6 +75,7 @@ if(isset($_POST['mot'])){
 	$data = getdata('chat');
 }
 
+echo $data;
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -176,7 +177,7 @@ if(isset($_POST['mot'])){
 					if(isset($_POST['mNbAffichage']))
 						$selected_val = $_POST['mNbAffichage'];
 					else
-						$selected_val = 10;
+						$selected_val = $init_min_tuples;
 
 					if ($data !== null)
 					{
