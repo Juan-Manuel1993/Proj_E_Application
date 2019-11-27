@@ -1,79 +1,81 @@
 <?php
 
 
-	require('envoi.php');
-	include 'init.php';
+    require('envoi.php');
+    include 'init.php';
 
-	if ( empty(session_id()) )
-		session_start();
+    if (empty(session_id())) {
+        session_start();
+    }
 
-	class Word {
-		public $weight;
-		private $t_relation;
-		private $t_node;
-		private $word;
+    class Word
+    {
+        public $weight;
+        private $t_relation;
+        private $t_node;
+        private $word;
 
-		public function __construct($weight, $word,$t_relation,$t_node)
-		{
-			$this->setWeight($weight);
-			$this->setTRelation($t_relation);
-			$this->setTNode($t_node);
-			$this->setWord($word);
-		}
+        public function __construct($weight, $word, $t_relation, $t_node)
+        {
+            $this->setWeight($weight);
+            $this->setTRelation($t_relation);
+            $this->setTNode($t_node);
+            $this->setWord($word);
+        }
 
-		public function getWeight()
-		{
-			return $this->weight;
-		}
+        public function getWeight()
+        {
+            return $this->weight;
+        }
 
-		public function setWeight($weight)
-		{
-			$this->weight = $weight;
-		}
+        public function setWeight($weight)
+        {
+            $this->weight = $weight;
+        }
 
-		public function getTRelation()
-		{
-			return $this->t_relation;
-		}
+        public function getTRelation()
+        {
+            return $this->t_relation;
+        }
 
-		public function setTRelation($t_relation)
-		{
-			$this->t_relation = $t_relation;
-		}
+        public function setTRelation($t_relation)
+        {
+            $this->t_relation = $t_relation;
+        }
 
-		public function getTNode()
-		{
-			return $this->t_node;
-		}
+        public function getTNode()
+        {
+            return $this->t_node;
+        }
 
-		public function setTNode($t_node)
-		{
-			$this->t_node = $t_node;
-		}
+        public function setTNode($t_node)
+        {
+            $this->t_node = $t_node;
+        }
 
-		public function getWord()
-		{
-			return $this->word;
-		}
+        public function getWord()
+        {
+            return $this->word;
+        }
 
-		public function setWord($word)
-		{
-			$this->word = $word;
-		}
-	}
+        public function setWord($word)
+        {
+            $this->word = $word;
+        }
+    }
 
-	$jdm_result = array();
+    $jdm_result = array();
 
-	if(isset($_POST['mot'])){
-		$_SESSION['mot'] = $_POST['mot'];
-		$data = getdata($_POST['mot']);
-		$word = $_POST['mot'];
-	}elseif (isset($_SESSION['mot'])) {
-		$word = $_SESSION['mot'];
-		$data = getdata($word);
-	}else{
-		$data = getdata('chat');
-	}
+    if (isset($_POST['mot'])) {
+        $_SESSION['mot'] = $_POST['mot'];
+        $data = getdata($_POST['mot']);
+        $word = $_POST['mot'];
+    } elseif (isset($_SESSION['mot'])) {
+        $word = $_SESSION['mot'];
+        $data = getdata($word);
+    } else {
+        $data = getdata('chat');
+    }
 
 ?>
 <!DOCTYPE html>
@@ -173,40 +175,39 @@
           <tbody>
           <?php
 
-			if(isset($_POST['mNbAffichage']))
-          		$selected_val = $_POST['mNbAffichage'];
-          	else
-          		$selected_val = $init_min_tuples;
+            if (isset($_POST['mNbAffichage'])) {
+                $selected_val = $_POST['mNbAffichage'];
+            } else {
+                $selected_val = $init_min_tuples;
+            }
 
-          	if ($data !== null)
-          	{
-          		$entries = getEntries($data);
-          		$nodestypes = getNodesTypes($data);
-          		$relationstypes = getRelationsTypes($data);
-          		$incomingrelations = getIncomingRelations($data);
+              if ($data !== null) {
+                  $entries = getEntries($data);
+                  $nodestypes = getNodesTypes($data);
+                  $relationstypes = getRelationsTypes($data);
+                  $incomingrelations = getIncomingRelations($data);
 
-          		$i=0;
-          		foreach ($entries as $key => $tab) {
-          			$jdm_result[] = new Word($tab['w'],str_replace("'","",$tab['name']),getRelationType($relationstypes,getIncomingRelation($incomingrelations,$tab['eid'])['type'])['trname'],"?");
-          			$i++;
+                  $i=0;
+                  foreach ($entries as $key => $tab) {
+                      $jdm_result[] = new Word($tab['w'], str_replace("'", "", $tab['name']), getRelationType($relationstypes, getIncomingRelation($incomingrelations, $tab['eid'])['type'])['trname'], getNodeType($nodestypes, getEntrie($entries, $tab['eid'])['type']));
+                      $i++;
 
-          			if($i >= $selected_val)
-          				break;
-          		}
-          	}
+                      if ($i >= $selected_val) {
+                          break;
+                      }
+                  }
+              }
 
-            for($i = 0;$i < $selected_val;$i++)
-            {
+            for ($i = 0;$i < $selected_val;$i++) {
+                if ($i%2 == 1) {
+                    $color_bg = '#fff';
+                } else {
+                    $color_bg = '#ccc';
+                }
 
-            	if($i%2 == 1)
-            		$color_bg = '#fff';
-            	else
-            		$color_bg = '#ccc';
-
-				if($jdm_result[$i] != null){
-	            	if( ( in_array ($jdm_result[$i]->getTRelation(), $_POST['relationList']) && in_array ($jdm_result[$i]->getTNode(), $_POST['typeList'])) || !isset($_POST['relationList'])){
-
-		              	echo "
+                if ($jdm_result[$i] != null) {
+                    if ((in_array($jdm_result[$i]->getTRelation(), $_POST['relationList']) && in_array($jdm_result[$i]->getTNode(), $_POST['typeList'])) || !isset($_POST['relationList'])) {
+                        echo "
 								<tr bgcolor=".$color_bg.">
 								<td>".$jdm_result[$i]->getWeight()."</td>
 								<td>".$jdm_result[$i]->getWord()."</td>
@@ -214,14 +215,16 @@
 								<td>".$jdm_result[$i]->getTNode()."</td>
 								</tr>
 							";
-					}
+                    }
 
-					if(!in_array($jdm_result[$i]->getTRelation(), $arrayRelation))
-						$arrayRelation[$jdm_result[$i]->getTRelation()] = $jdm_result[$i]->getTRelation();
+                    if (!in_array($jdm_result[$i]->getTRelation(), $arrayRelation)) {
+                        $arrayRelation[$jdm_result[$i]->getTRelation()] = $jdm_result[$i]->getTRelation();
+                    }
 
-					if(!in_array($jdm_result[$i]->getTNode(), $arrayType))
-						$arrayType[$jdm_result[$i]->getTNode()] = $jdm_result[$i]->getTNode();
-				}
+                    if (!in_array($jdm_result[$i]->getTNode(), $arrayType)) {
+                        $arrayType[$jdm_result[$i]->getTNode()] = $jdm_result[$i]->getTNode();
+                    }
+                }
             }
           ?>
           </tbody>
@@ -234,15 +237,14 @@
 			<br>
 	        <select name="mNbAffichage" id="mNbAffichage">
 	          <?php
-	            for($i = $init_min_tuples;$i <= 500; $i+=$init_step)
-	            {
-	              if($i==$_POST['mNbAffichage']){
-	            		echo "<option selected=".'"'."selected".'"'." value=".$i.">".$i."</option>";
-	            	}else{
-	            		echo "<option value=".$i.">".$i."</option>";
-	            	}
-	            }
-	          ?>
+                for ($i = $init_min_tuples;$i <= 500; $i+=$init_step) {
+                    if ($i==$_POST['mNbAffichage']) {
+                        echo "<option selected=".'"'."selected".'"'." value=".$i.">".$i."</option>";
+                    } else {
+                        echo "<option value=".$i.">".$i."</option>";
+                    }
+                }
+              ?>
 	        </select>
         </p>
         <p>
@@ -251,14 +253,14 @@
         		<section>
 					<select multiple name="relationList[]" style="width: min-content">
 					   	<?php
-							foreach ($arrayRelation as $key => $value) {
-						        if( in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) {
-						            echo '<option value="'.$key.'" selected>'.$value.'</option>';
-						        } else {
-						            echo '<option value="'.$key.'">'.$value.'</option>';
-						        }
-						    }
-					   	?>
+                            foreach ($arrayRelation as $key => $value) {
+                                if (in_array($key, $_POST['relationList']) || !isset($_POST['relationList'])) {
+                                    echo '<option value="'.$key.'" selected>'.$value.'</option>';
+                                } else {
+                                    echo '<option value="'.$key.'">'.$value.'</option>';
+                                }
+                            }
+                        ?>
 					</select>
 				</section>
 			</section>
@@ -268,14 +270,14 @@
         		<section>
 					<select multiple name="typeList[]" style="width: min-content">
 					   	<?php
-							foreach ($arrayType as $key => $value) {
-						        if( in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) {
-						            echo '<option value="'.$key.'" selected>'.$value.'</option>';
-						        } else {
-						            echo '<option value="'.$key.'">'.$value.'</option>';
-						        }
-						    }
-					   	?>
+                            foreach ($arrayType as $key => $value) {
+                                if (in_array($key, $_POST['typeList']) || !isset($_POST['typeList'])) {
+                                    echo '<option value="'.$key.'" selected>'.$value.'</option>';
+                                } else {
+                                    echo '<option value="'.$key.'">'.$value.'</option>';
+                                }
+                            }
+                        ?>
 					</select>
 				</section>
 			</section>
@@ -285,15 +287,14 @@
         		<section>
 					<select multiple name="raffList[]" style="width: min-content">
 					   	<?php
-							foreach ($jdm_result as $key => $value) {
-
-						        if( in_array($key, $_POST['raffList']) ) {
-						            echo '<option value="'.$value->getWord().'" selected>'.$value->getWord().'</option>';
-						        } else {
-						            echo '<option value="'.$value->getWord().'">'.$value->getWord().'</option>';
-						        }
-						    }
-					   	?>
+                            foreach ($jdm_result as $key => $value) {
+                                if (in_array($key, $_POST['raffList'])) {
+                                    echo '<option value="'.$value->getWord().'" selected>'.$value->getWord().'</option>';
+                                } else {
+                                    echo '<option value="'.$value->getWord().'">'.$value->getWord().'</option>';
+                                }
+                            }
+                        ?>
 					</select>
 				</section>
 			</section>
