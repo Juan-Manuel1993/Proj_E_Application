@@ -534,7 +534,7 @@
 		}
 
 
-		//Ralenti l'execution 
+		//Ralenti l'execution
 		//$node n'est plus utilisé
 		/*#je supprime de la table des noeuds, tous les noeuds qui ne sont pas dans la table de relation sortante
 		foreach ($node as $key => $value) {
@@ -683,6 +683,15 @@
 		return null;
 	}
 
+	function getIncomingRelation($incomingelations,$node2){
+		foreach ($incomingelations as $key => $subtab) {
+			if($subtab['node2'] == $node2){
+				return $subtab;
+			}
+		}
+		return null;
+	}
+
 	function array_sort($array, $on, $order=SORT_DESC)
 	{
 	    $new_array = array();
@@ -718,7 +727,6 @@
 	    return $new_array;
 	}
 	/////////////////////
-
 
 	//////////////////////
 	/*
