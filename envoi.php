@@ -680,8 +680,10 @@
         return $new_array;
     }
 
-        ////////////////
+        ///////////////
+                /*
         $word = 'chat';
         echo 'result :';
         print_r(getInformations($word, getdata($word)));
-        ////////////////
+*/
+                ////////////////

@@ -217,7 +217,7 @@
           <h3> Définition : </h3><br>
           <?php echo $info['def'] ?>
           <?php foreach ($info['raffSem'] as $key => $tab) {
-                  echo "•".$info['def'];
+                  echo "•".$tab['def'];
               }
           ?>
       </div>
