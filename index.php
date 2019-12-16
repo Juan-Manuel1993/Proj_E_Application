@@ -40,6 +40,9 @@
 
     $jdm_result = array();
 
+    $data = "";
+    $word = "";
+
     if (isset($_POST['mot'])) {
         $_SESSION['mot'] = $_POST['mot'];
         $data = getdata($_POST['mot']);
@@ -47,9 +50,9 @@
     } elseif (isset($_SESSION['mot'])) {
         $word = $_SESSION['mot'];
         $data = getdata($word);
-    } else {
-        $data = getdata('chat');
     }
+
+    $info = getInformations($word, $data);
 
 ?>
 <!DOCTYPE html>
@@ -208,6 +211,15 @@
           </p>
           <input type="submit" value="Appliquer" />
         </form>
+      </div>
+      <div>
+        <h2>Mot de la recherche : <h1><?php $word ?></h1> </h2>
+          <h3> Définition : </h3><br>
+          <?php echo $info['def'] ?>
+          <?php foreach ($info['raffSem'] as $key => $tab) {
+                  echo "•".$info['def'];
+              }
+          ?>
       </div>
     </div>
 
