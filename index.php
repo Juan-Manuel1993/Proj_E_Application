@@ -214,8 +214,8 @@
       </div>
 
       <div>
-        <h2>Mot de la recherche : <h1><?php $word ?></h1> </h2>
-          <h3> Définition : </h3><br>
+        <h2>Mot de la recherche : <h1><?php echo $word; ?></h1> </h2>
+          <h3>Définition : </h3><br>
           <?php echo $info['def'] ?>
           <?php foreach ($info['raffSem'] as $key => $tab) {
               if ($tab['def'] != "") {
