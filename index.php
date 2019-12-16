@@ -140,6 +140,25 @@
 
     <div id="conteneur">
       <div >
+        <div >
+        	<form  method="post">
+            <p>Nombre d'élèment à afficher
+            <br>
+              <select name="mNbAffichage" id="mNbAffichage">
+                <?php
+                    for ($i = $init_min_tuples;$i <= 500; $i+=$init_step) {
+                        if ($i==$_POST['mNbAffichage']) {
+                            echo "<option selected=".'"'."selected".'"'." value=".$i.">".$i."</option>";
+                        } else {
+                            echo "<option value=".$i.">".$i."</option>";
+                        }
+                    }
+                ?>
+              </select>
+            </p>
+            <input type="submit" value="Appliquer" />
+          </form>
+        </div>
         <table border="1" cellpadding="10" class="avectri" cellspacing="2" width="100%" >
         	<thead>
           <tr>
@@ -193,32 +212,16 @@
           </tbody>
         </table>
       </div>
-      <div >
-      	<form  method="post">
-          <p>Nombre d'élèment à afficher
-          <br>
-            <select name="mNbAffichage" id="mNbAffichage">
-              <?php
-                  for ($i = $init_min_tuples;$i <= 500; $i+=$init_step) {
-                      if ($i==$_POST['mNbAffichage']) {
-                          echo "<option selected=".'"'."selected".'"'." value=".$i.">".$i."</option>";
-                      } else {
-                          echo "<option value=".$i.">".$i."</option>";
-                      }
-                  }
-              ?>
-            </select>
-          </p>
-          <input type="submit" value="Appliquer" />
-        </form>
-      </div>
+
       <div>
         <h2>Mot de la recherche : <h1><?php $word ?></h1> </h2>
           <h3> Définition : </h3><br>
           <?php echo $info['def'] ?>
           <?php foreach ($info['raffSem'] as $key => $tab) {
-                  echo "•".$tab['def'];
+              if ($tab['def'] != "") {
+                  echo $tab['def'].'<br>';
               }
+          }
           ?>
       </div>
     </div>
