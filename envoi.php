@@ -623,7 +623,7 @@
 
         foreach ($tab as $key => $subtab) {
             $def = getdef(getdata($subtab['formated_name']));
-            $subtab['def'] = preg_replace('/^([\d\s.]*)([(]{1}[^\n]+[)]{1})([^\n]+)/i', '$1 <strong>$2</strong> $3', $def);
+            $subtab['def'] = preg_replace('/^([^\n]*)([(]{1}[^\n]+[)]{1})([^\n]+)/i', '$1 <strong>$2</strong> $3', $def);
             $subtab['formated_name'] = str_replace($word.'>', "", $subtab['formated_name']);
             $tab[$key] = $subtab;
         }
