@@ -623,12 +623,13 @@
 
         foreach ($tab as $key => $subtab) {
             $def = getdef(getdata($subtab['formated_name']));
-            $subtab['def'] = preg_replace('/^([^\n]*)([(]{1}[^\n]+[)]{1})([^\n]+)/i', '$1 <strong>$2</strong> $3', $def);
+            $def = str_replace('<br />', '<br>', $def);
+            $subtab['def'] = preg_replace('/^([\d]+\.\s[<br>]*|)([(]{1}[^\n]+[)]{1})([^\n]+)/mi', '$1 <strong>$2</strong> $3', $def);
             $subtab['formated_name'] = str_replace($word.'>', "", $subtab['formated_name']);
             $tab[$key] = $subtab;
         }
 
-        $info['def'] = str_replace(array('<br />','<br>'), getdef($data));
+        $info['def'] = str_replace(array('<br />','<br>'), "", getdef($data));
         $info['raffSem'] = $tab;
 
         return $info;

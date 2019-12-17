@@ -50,6 +50,9 @@
     } elseif (isset($_SESSION['mot'])) {
         $word = $_SESSION['mot'];
         $data = getdata($word);
+    } else {
+        $word = 'chat';
+        $data = getdata($word);
     }
 
     $info = getInformations($word, $data);
@@ -219,7 +222,7 @@
           <?php echo $info['def'] ?>
           <?php foreach ($info['raffSem'] as $key => $tab) {
               if ($tab['def'] != "") {
-                  echo $tab['def'].'<br>';
+                  echo $tab['def'];
               }
           }
           ?>
