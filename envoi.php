@@ -26,9 +26,16 @@
     xdebug.max_nesting_level = 200
     */
 
-/*	$i=$_POST['mot']; // Récupère ce que l'utilisateur a entré
+	$i=$_POST['mot']; // Récupère ce que l'utilisateur a entré
+    $i='chat';
     $result = getdata($i);
+    
 
+    $rf = "./rf$i.txt"; // fichier qui contient tous les raffinements
+    $allf ="./allf$i.txt"; // fichier qui contient tous les mots
+    $deff ="./deff$i.txt"; // fichier qui contient toutes les définitions
+
+/*
     //$file = "noeuds$i.txt";
 
     $noeuds = "./noeuds$i.txt"; // fichier qui contient tous les noeuds
@@ -256,8 +263,8 @@
             'http' => array(
                 'header'  => "Content-type: application/x-www-form-urlencoded",
                 'method'  => 'POST',
-                'content' => $postfields,
-            ),
+                'content' => $postfields
+            )
         );
 
         $context = stream_context_create($options);
@@ -391,8 +398,14 @@
             }
         }
 
+        $raff = array_map('raffinement', $raff);
+
         return $raff;
     }
+
+    file_put_contents($rf,getraffinement($i));
+    file_put_contents($allf,getinfo($i));
+    file_put_contents($deff,getdef($i));
 
     function getinfo($arg)
     {
