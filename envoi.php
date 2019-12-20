@@ -27,9 +27,9 @@
     */
 
 	$i=$_POST['mot']; // Récupère ce que l'utilisateur a entré
-    $i='chat';
+
     $result = getdata($i);
-    
+
 
     $rf = "./rf$i.txt"; // fichier qui contient tous les raffinements
     $allf ="./allf$i.txt"; // fichier qui contient tous les mots
