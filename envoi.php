@@ -1,6 +1,9 @@
 <?php
     require 'Cache.php';
 
+
+    $start = microtime(true);
+
     session_start();
     // afficher incrémentalement
     // sauvegarder les données en cache
@@ -27,6 +30,7 @@
     xdebug.max_nesting_level = 200
     */
 
+
     define('ROOT',dirname(__FILE__));
 
 
@@ -38,7 +42,6 @@
 
     $path = $_SERVER['DOCUMENT_ROOT'];
 
-    $file = "cache.txt";
 
 
     if ((substr($path, -1)) == '/' ){
@@ -638,6 +641,10 @@
 
         return $relationsortante2;
     }
+
+    $time = number_format(($end - $start), 2);
+
+    echo "this page loaded in ", $time, "seconds";
 
     /*******************************************/
 
