@@ -5,7 +5,7 @@
     if (empty(session_id())) {
         session_start();
     }
-
+/*
     class Word
     {
         public $weight;
@@ -82,9 +82,9 @@
     .whiteBackground { background-color: #fff; }
 	.grayBackground { background-color: #ccc; }
   
-
+*/
 	/* Classe obligatoire pour les flèches */
-
+/*
 	.flecheDesc {
 	  width: 0;
 	  height: 0;
@@ -103,10 +103,10 @@
 	  border-right: 5px solid transparent;
 	  border-top: 5px solid black;
 	}
-  
+*/  
 
 	/* Classe optionnelle pour le style */
-
+/*
   
 	.tableau {width:100%;table-layout: fixed;border-collapse: collapse;}
 	.tableau td {padding:.3rem}
@@ -238,3 +238,4 @@
   </body>
 </html>
 
+*/

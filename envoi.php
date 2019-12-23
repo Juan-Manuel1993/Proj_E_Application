@@ -33,14 +33,26 @@
 
     $Cache = new Cache(ROOT.'/cache',60);
     //mkdir("caches");
-    echo "string";
-
+    
     $content = "some text here";
 
-    echo $_SERVER['DOCUMENT_ROOT'];
-    $fp = fopen($_SERVER['DOCUMENT_ROOT']./cache . "/mycache.txt","wb");
-    fwrite($fp,$content);
-    fclose($fp);
+    $path = $_SERVER['DOCUMENT_ROOT'];
+
+
+    if ((substr($path, -1)) == '/' ){
+         $fp = fopen($_SERVER['DOCUMENT_ROOT'].cache . "/mycache.txt","wb");
+        
+    }
+    else {
+
+        $fp = fopen($_SERVER['DOCUMENT_ROOT'].'/'.cache . "/mycache.txt","wb");
+
+          echo $path;
+         
+    }
+
+    //fwrite($fp,$content);
+    //fclose($fp);
 
 	$i=$_POST['mot']; // Récupère ce que l'utilisateur a entré
 
@@ -631,16 +643,7 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
+/*
 
     function getToken($text, $regexAll, $regexSingle)
     {
@@ -739,7 +742,7 @@
 
         return $new_array;
     }
-
+*/
         ///////////////
                 /*
         $word = 'chat';
