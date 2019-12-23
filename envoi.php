@@ -52,7 +52,7 @@
 
         $fp = fopen($_SERVER['DOCUMENT_ROOT'].'/'.cache . "/mycache.txt","wb");
 
-          echo $path;
+          echo $path."\n";
          
     }
 
