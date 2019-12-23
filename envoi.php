@@ -36,7 +36,7 @@
 
     $content = "some text here";
     echo $_SERVER['DOCUMENT_ROOT'];
-    $fp = fopen($_SERVER['DOCUMENT_ROOT'] . "/myText.txt","wb");
+    $fp = fopen($_SERVER['DOCUMENT_ROOT'].cache . "/mycache.txt","wb");
     fwrite($fp,$content);
     fclose($fp);
 
