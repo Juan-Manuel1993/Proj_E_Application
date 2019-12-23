@@ -1,11 +1,11 @@
 <?php
-    require('envoi.php');
+   require('envoi.php');
     include 'init.php';
 
     if (empty(session_id())) {
         session_start();
     }
-
+/*
     class Word
     {
         public $weight;
@@ -81,9 +81,11 @@
     #conteneur div { margin:5px;width:49.2%;float:left }
     .whiteBackground { background-color: #fff; }
 	.grayBackground { background-color: #ccc; }
+  */
 
 	/* Classe obligatoire pour les flèches */
-	.flecheDesc {
+
+/*	.flecheDesc {
 	  width: 0;
 	  height: 0;
 	  float:right;
@@ -101,8 +103,11 @@
 	  border-right: 5px solid transparent;
 	  border-top: 5px solid black;
 	}
+  */
 
 	/* Classe optionnelle pour le style */
+
+  /*
 	.tableau {width:100%;table-layout: fixed;border-collapse: collapse;}
 	.tableau td {padding:.3rem}
 	.avectri th {text-align:center;padding:5px 0 0 5px;vertical-align: middle;background-color:#999690;color:#444;cursor:pointer;
@@ -232,3 +237,5 @@
 
   </body>
 </html>
+
+*/

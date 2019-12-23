@@ -1,4 +1,5 @@
 <?php
+    require 'Cache.php';
 
     session_start();
     // afficher incrémentalement
@@ -26,14 +27,39 @@
     xdebug.max_nesting_level = 200
     */
 
+    define('ROOT',dirname(__FILE__));
+
+
+
+    $Cache = new Cache(ROOT.'/cache',60);
+    //mkdir("caches");
+
+
+    echo $_SERVER['DOCUMENT_ROOT'];
+
 	$i=$_POST['mot']; // Récupère ce que l'utilisateur a entré
 
     $result = getdata($i);
+/*
+    if(!$text = $Cache->read('text')){
+
+        $text = "yeeeeaaaaaaaaaaaaaahhhh";
+      if (!$test =  $Cache->write('text.txt',$text)){
+        echo "string";
+      } 
+        
+        
+    }
+
+    */
 
 
-    $rf = "./rf$i.txt"; // fichier qui contient tous les raffinements
-    $allf ="./allf$i.txt"; // fichier qui contient tous les mots
-    $deff ="./deff$i.txt"; // fichier qui contient toutes les définitions
+    
+    
+
+  //  $rf ="rf$i.txt"; // fichier qui contient tous les raffinements
+   // $allf ="allf$i.txt"; // fichier qui contient tous les mots
+    //$deff ="deff$i.txt"; // fichier qui contient toutes les définitions
 
 /*
     //$file = "noeuds$i.txt";
@@ -284,7 +310,7 @@
         $definitionmots = explode('</def>', $definitionmot[1]);
         //$definitionmots[0] contient toutes les définitions du mot
 
-        return $definitionmots[0]."<br>";
+        return $definitionmots[0];
     }
 
     function raffinement($arg)
@@ -296,10 +322,9 @@
 
     function getraffinement($arg)
     {
-        $definitionmots = getdef($result);
-
         // Découper le contenu de la page par <code>
-        $decoupeparcode = explode('<CODE>', $result);
+        $decoupeparcode = explode('<CODE>', $arg);
+
 
         $apresformatedname = explode('formated name\'', $decoupeparcode[1]); // récupérer tout ce qui est après le mot et avant  " formated name " dans le texte. Ce qui correspond à tout ce dont on a besoin à partir de noeud
 
@@ -396,23 +421,25 @@
                 $po = explode('\'', $relationsortante2[$key]);
                 $raff[] = $po[1];
             }
+
         }
+
 
         $raff = array_map('raffinement', $raff);
 
         return $raff;
     }
 
-    file_put_contents($rf,getraffinement($i));
-    file_put_contents($allf,getinfo($i));
-    file_put_contents($deff,getdef($i));
+   // file_put_contents($rf,getraffinement($result));
+    //file_put_contents($allf,getinfo($result));
+    //file_put_contents($deff,getdef($result));
+
 
     function getinfo($arg)
     {
-        $result = getdata($arg);
 
         // Découper le contenu de la page par <code>
-        $decoupeparcode = explode('<CODE>', $result);
+        $decoupeparcode = explode('<CODE>', $arg);
 
         $apresformatedname = explode('formated name\'', $decoupeparcode[1]); // récupérer tout ce qui est après le mot et avant  " formated name " dans le texte. Ce qui correspond à tout ce dont on a besoin à partir de noeud
 
@@ -449,7 +476,6 @@
         // suprimert devient notre nouveau contenu de type de relation
 
         $supprimert = explode('rt;', $gettyperelation[1]);
-
 
 
         //on récupère le nom de chaque type de relations existant
@@ -594,7 +620,22 @@
         return $relationsortante2;
     }
 
-    ///////////////
+    /*******************************************/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     function getToken($text, $regexAll, $regexSingle)
     {
