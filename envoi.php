@@ -35,6 +35,7 @@
     //mkdir("caches");
 
     $content = "some text here";
+
     echo $_SERVER['DOCUMENT_ROOT'];
     $fp = fopen($_SERVER['DOCUMENT_ROOT']./cache . "/mycache.txt","wb");
     fwrite($fp,$content);
