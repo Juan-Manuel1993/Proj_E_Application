@@ -34,8 +34,11 @@
     $Cache = new Cache(ROOT.'/cache',60);
     //mkdir("caches");
 
-
+    $content = "some text here";
     echo $_SERVER['DOCUMENT_ROOT'];
+    $fp = fopen($_SERVER['DOCUMENT_ROOT'] . "/myText.txt","wb");
+    fwrite($fp,$content);
+    fclose($fp);
 
 	$i=$_POST['mot']; // Récupère ce que l'utilisateur a entré
 
