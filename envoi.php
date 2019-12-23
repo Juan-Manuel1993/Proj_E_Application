@@ -33,6 +33,7 @@
 
     $Cache = new Cache(ROOT.'/cache',60);
     //mkdir("caches");
+    echo "string";
 
     $content = "some text here";
 
