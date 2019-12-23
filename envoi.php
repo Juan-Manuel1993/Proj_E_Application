@@ -38,6 +38,8 @@
 
     $path = $_SERVER['DOCUMENT_ROOT'];
 
+    $file = "cache.txt";
+
 
     if ((substr($path, -1)) == '/' ){
          $fp = fopen($_SERVER['DOCUMENT_ROOT'].cache . "/mycache.txt","wb");
