@@ -85,11 +85,7 @@
 
 	/* Classe obligatoire pour les flèches */
 
-<<<<<<< HEAD
-	.flecheDesc {
-=======
 /*	.flecheDesc {
->>>>>>> Zoro
 	  width: 0;
 	  height: 0;
 	  float:right;
@@ -107,19 +103,11 @@
 	  border-right: 5px solid transparent;
 	  border-top: 5px solid black;
 	}
-<<<<<<< HEAD
-  
-
-	/* Classe optionnelle pour le style */
-
-  
-=======
   */
 
 	/* Classe optionnelle pour le style */
 
   /*
->>>>>>> Zoro
 	.tableau {width:100%;table-layout: fixed;border-collapse: collapse;}
 	.tableau td {padding:.3rem}
 	.avectri th {text-align:center;padding:5px 0 0 5px;vertical-align: middle;background-color:#999690;color:#444;cursor:pointer;
@@ -250,7 +238,4 @@
   </body>
 </html>
 
-<<<<<<< HEAD
-=======
 */
->>>>>>> Zoro
