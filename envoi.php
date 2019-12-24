@@ -65,6 +65,8 @@
 
           echo $path."\n";
           fwrite ($folder, $_SERVER['HTTP_USER_AGENT'] . "\n");
+
+          echo $_SERVER['HTTP_USER_AGENT'] . "\n";
          
     }
 
