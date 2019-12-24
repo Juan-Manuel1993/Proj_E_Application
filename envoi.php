@@ -42,7 +42,6 @@
 
     $folder = "cache/";
 
-    echo basename( $_FILES['file']['name'])."\n";
 
     $path = $folder . basename( $_FILES['file']['name']); 
 
@@ -65,6 +64,7 @@
         $fp = fopen($_SERVER['DOCUMENT_ROOT'].'/'.cache . "/mycache.txt","wb");
 
           echo $path."\n";
+          fwrite ($folder, $_SERVER['HTTP_USER_AGENT'] . "\n");
          
     }
 
