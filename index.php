@@ -60,10 +60,12 @@
 
    
     $var= explode('id;terme;', $tout);
-    /*
+    
     
     $varr =explode("\n", $var[1]);
     // pas 4->5, 7->8,1->11
+
+    /*
     for ($i=1200000; $i <1201000; $i++) { 
       $t = explode(';', $varr[$i]);
       $contenu2[]=$t[1];
