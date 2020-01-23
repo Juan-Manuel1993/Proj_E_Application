@@ -269,6 +269,31 @@
         return $result;
     }
 
+    
+    function getmots()
+    {
+    
+        $url = "http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt";
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded",
+                'method'  => 'POST',
+                'content' => $postfields,
+            ),
+        );
+
+        $context = stream_context_create($options);
+
+        $result = file_get_contents($url, false, $context);
+        $result = utf8_encode($result);
+      
+
+        return $result;
+    }
+
+
+
     function getdef($arg)
     {
         // récupérer la définition du mot
