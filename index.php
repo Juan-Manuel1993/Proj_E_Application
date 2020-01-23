@@ -6,6 +6,7 @@
         session_start();
     }
 
+/*
     class Word
     {
         public $weight;
@@ -37,25 +38,62 @@
             $this->word = $word;
         }
     }
-
+*/
+/*
     $jdm_result = array();
 
     $data = "";
     $word = "";
 
+   // getinfo('chat');
+   
+    //si le mot existe
     if (isset($_POST['mot'])) {
+        // on enregistre la session
         $_SESSION['mot'] = $_POST['mot'];
+
+        // on récupère les données du mot
         $data = getdata($_POST['mot']);
+
+        // on récupère le mot entré par l'utilisateur
         $word = $_POST['mot'];
-    } elseif (isset($_SESSION['mot'])) {
+
+        // si l aseesion existe déjà
+    } else if (isset($_SESSION['mot'])) {
         $word = $_SESSION['mot'];
         $data = getdata($word);
-    } else {
-        $word = 'chat';
-        $data = getdata($word);
-    }
 
-    $info = getInformations($word, $data);
+        // affichage par défaut
+    } 
+*/
+
+    // récupère définitions et raffinements
+    $info = null;
+    //$info = getInformations($word, $data);
+
+
+   // $tout = file_get_contents("http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt");
+
+    $tout = getmots();
+
+   
+    $var= explode('id;terme;', $tout);
+
+    //$var = str__replace("\"","\"",$var);
+    
+    $varr =explode("\n", $var[1]);
+
+
+    
+    $contenu = array();
+    $r = array();
+    // pas 4->5, 7->8,1->11
+    for ($i=1200000; $i <1300000; $i++) { 
+      $t = explode(';', $varr[$i]);
+      $contenu2[]=$t[1];
+    }
+        
+    //  unset($contenu2[128]);
 
 ?>
 <!DOCTYPE html>
@@ -64,170 +102,68 @@
   <title>Jeux Mots</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <link rel=’stylesheet’ type=’text/css’ href=’style.css’ />
   <script type="text/javascript" src="tri.js"></script>
-  <script scr="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script type="text/javascript" scr="mscript.js"></script>
-
-  <style>
-
-    div { border: 1px solid black;margin:15px }
-    table { solid #000;padding: 5px; }
-    td {solid #000; padding: 5px;}
-    th {padding: 5px;}
-    #conteneur { overflow: hidden}
-    #conteneur div { margin:5px;width:49.2%;float:left }
-    .whiteBackground { background-color: #fff; }
-	.grayBackground { background-color: #ccc; }
-
-	/* Classe obligatoire pour les flèches */
-	.flecheDesc {
-	  width: 0;
-	  height: 0;
-	  float:right;
-	  margin: 10px;
-	  border-left: 5px solid transparent;
-	  border-right: 5px solid transparent;
-	  border-bottom: 5px solid black;
-	}
-	.flecheAsc {
-	  width: 0;
-	  height: 0;
-	  float:right;
-	  margin: 10px;
-	  border-left: 5px solid transparent;
-	  border-right: 5px solid transparent;
-	  border-top: 5px solid black;
-	}
-
-	/* Classe optionnelle pour le style */
-	.tableau {width:100%;table-layout: fixed;border-collapse: collapse;}
-	.tableau td {padding:.3rem}
-	.avectri th {text-align:center;padding:5px 0 0 5px;vertical-align: middle;background-color:#999690;color:#444;cursor:pointer;
-		-webkit-touch-callout: none;
-	  -webkit-user-select: none;
-	  -khtml-user-select: none;
-	  -moz-user-select: none;
-	  -ms-user-select: none;
-	  -o-user-select: none;
-	  user-select: none;
-	}
-	.avectri th.selection {background-color:#5d625c;color:#fff;}
-	.avectri th.selection .flecheDesc {border-bottom-color: white;}
-	.avectri th.selection .flecheAsc {border-top-color: white;}
-
-	.avectri tr:nth-child(odd) {background-color: #d6d3ce;border-bottom:1px solid #ccc;color:#444;}
-	.avectri tr:nth-child(even) {background-color: #c6c3bd;border-bottom:1px solid #ccc;color:#444;}
-	.avectri tbody tr:hover:nth-child(odd) {background-color: #999690;color:#ffffff;}
-	.avectri tbody tr:hover:nth-child(even) {background-color: #999690;color:#ffffff;}
-
-}
-	.zebre tbody td:nth-child(3) {text-align:center;}
-
-  </style>
+  <!-- <script type="text/javascript" src="auto.js"></script> -->
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+ <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"> -->
+  <!-- <script type="text/javascript" src="js/bootstrap.min.js"></script> -->
+  
+ 
   </head>
   <body>
 
+
+<div class="ui-widget">
+
     <h1 align="center">Jeux De Mots</h1>
-    <form method="post">
-
+    <form action = "envoi.php" method="post">
       <p align="center">
-
-        <input type="text" id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> />
+      <label for="tags">Mot: </label>
+       <input id="tags">
         <input type="submit" id="formsubmit" value="Rechercher">
 
       </p>
+
     </form>
 
-    <div id="conteneur">
-      <div >
-        <div >
-        	<form  method="post">
-            <p>Nombre d'élèment à afficher
-            <br>
-              <select name="mNbAffichage" id="mNbAffichage">
-                <?php
-                    for ($i = $init_min_tuples;$i <= 500; $i+=$init_step) {
-                        if ($i==$_POST['mNbAffichage']) {
-                            echo "<option selected=".'"'."selected".'"'." value=".$i.">".$i."</option>";
-                        } else {
-                            echo "<option value=".$i.">".$i."</option>";
-                        }
-                    }
-                ?>
-              </select>
-            </p>
-            <input type="submit" value="Appliquer" />
-          </form>
-        </div>
-        <table border="1" cellpadding="10" class="avectri" cellspacing="2" width="100%" >
-        	<thead>
-          <tr>
-            <th data-tri="0" class="selection" style="width: min-content" data-type="num" width="10%">Importance</th>
-            <th style="width: min-content">Mot</th>
-          </tr>
-          </thead>
-          <tbody>
-          <?php
+  </div>
 
-            if (isset($_POST['mNbAffichage'])) {
-                $selected_val = $_POST['mNbAffichage'];
-            } else {
-                $selected_val = $init_min_tuples;
-            }
 
-              if ($data !== null) {
-                  $entries = getEntries($data);
+     <script type="text/javascript"  charset="utf-8">
 
-                  $i=0;
-                  foreach ($entries as $key => $tab) {
-                      $jdm_result[] = new Word(
-                          $tab['w'],
-                          str_replace("'", "", $tab['name'])
-                      );
-                      $i++;
+      //var disp = <?php echo '["' . implode('", "', $contenu) . '"]' ?>;
 
-                      if ($i >= $selected_val) {
-                          break;
-                      }
-                  }
-              }
 
-            for ($i = 0;$i < $selected_val;$i++) {
-                if ($i%2 == 1) {
-                    $color_bg = '#fff';
-                } else {
-                    $color_bg = '#ccc';
-                }
+      var disp2 = <?php echo '["' . implode('", "', $contenu2) . '"]' ?>;
 
-                if ($jdm_result[$i] != null) {
-                    echo "
-								<tr bgcolor=".$color_bg.">
-								<td>".$jdm_result[$i]->getWeight()."</td>
-								<td>".$jdm_result[$i]->getWord()."</td>
-								</tr>
-							";
-                }
-            }
-          ?>
-          </tbody>
-        </table>
-      </div>
 
-      <div>
-        <h2>Mot de la recherche : <h1><?php echo $word; ?></h1> </h2>
-          <h3>Définition : </h3><br>
-          <?php echo $info['def'] ?>
-          <?php foreach ($info['raffSem'] as $key => $tab) {
-              if ($tab['def'] != "") {
-                  echo $tab['def'];
-              }
-          }
-          ?>
-      </div>
-    </div>
+    
+      
+    
+    
+/*
+  $( function() {
+    
+    $( "#tags" ).autocomplete({
+      source: disp
+    });
+  } );
+ 
+*/
+
+  $( function() {
+    
+    $( "#tags" ).autocomplete({
+      source: disp2,
+      minLength:3
+    });
+  } );
+
+ 
+  </script>
 
 
   </body>

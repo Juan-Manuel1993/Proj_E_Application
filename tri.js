@@ -44,6 +44,8 @@ function twPret(maFonction) {
   }
 }
 
+
+
 twPret(twInit);
 
 function twTriTableau() {

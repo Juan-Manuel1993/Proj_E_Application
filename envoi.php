@@ -1,6 +1,5 @@
 <?php
 
-    session_start();
     // afficher incrémentalement
     // sauvegarder les données en cache
     // gérer la durée de vie du cache
@@ -269,6 +268,31 @@
         return $result;
     }
 
+
+    function getmots()
+    {
+    
+        $url = "http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt";
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded",
+                'method'  => 'POST',
+                'content' => $postfields,
+            ),
+        );
+
+        $context = stream_context_create($options);
+
+        $result = file_get_contents($url, false, $context);
+        $result = utf8_encode($result);
+      
+
+        return $result;
+    }
+
+
+
     function getdef($arg)
     {
         // récupérer la définition du mot
@@ -277,7 +301,13 @@
         $definitionmots = explode('</def>', $definitionmot[1]);
         //$definitionmots[0] contient toutes les définitions du mot
 
+        if (isset($definitionmots)){ 
         return $definitionmots[0]."<br>";
+        }
+
+        else return null;
+
+
     }
 
     function raffinement($arg)
@@ -287,9 +317,11 @@
         return $arg."\n".":"."\n".getdef($html);
     }
 
+    /*
+
     function getraffinement($arg)
     {
-        $definitionmots = getdef($result);
+        $result = getdata($arg);
 
         // Découper le contenu de la page par <code>
         $decoupeparcode = explode('<CODE>', $result);
@@ -318,6 +350,7 @@
         //$getrelationsortante2 nouvelle table de relation sortante
 
         $getrelationsortante2 = explode('r;', $getrelationsortante[0]);
+
 
         //récupère la taille du tableau de relation sortante
         //$taillerelationsortante = $count($getrelationsortante2);
@@ -353,6 +386,8 @@
             // crée une table de hachache de numero de relation sortante =====> type de relation
             $typerelation[$ri[0]] = $ri[3];
         }
+
+   
 
         for ($i=2; $i<count($getnoeuds);$i++) {
 
@@ -394,12 +429,18 @@
         return $raff;
     }
 
+    */
+
+   // getinfo('chat');
+
     function getinfo($arg)
     {
         $result = getdata($arg);
 
         // Découper le contenu de la page par <code>
         $decoupeparcode = explode('<CODE>', $result);
+
+
 
         $apresformatedname = explode('formated name\'', $decoupeparcode[1]); // récupérer tout ce qui est après le mot et avant  " formated name " dans le texte. Ce qui correspond à tout ce dont on a besoin à partir de noeud
 
@@ -409,6 +450,7 @@
         //toutes les types de relations sont dans $gettyperelation[1]
         $gettyperelation = explode('rthelp\'', $getnoeud[1]);
 
+       
         // recupère tout le texte apres "formated name"
         //contient toutes les relations
         $touterelation = explode('les relations sortantes : r;rid;node1;node2;type;w ', $apresformatedname[1]);
@@ -417,6 +459,7 @@
         $getrelationsortante = explode('//', $touterelation[1]);
         //$getrelationsortante[0] contient toutes les relations sortantes
 
+
         // $getrelationentrante[1] contient toutes les relations entrantes
         $getrelationentrante = explode('les relations entrantes : r;rid;node1;node2;type;w ', $getrelationsortante[1]);
 
@@ -424,6 +467,8 @@
         //$getrelationsortante2 nouvelle table de relation sortante
 
         $getrelationsortante2 = explode('r;', $getrelationsortante[0]);
+
+        $getrelationentrante2=explode('r;', $getrelationentrante[1]);
 
         //récupère la taille du tableau de relation sortante
         //$taillerelationsortante = $count($getrelationsortante2);
@@ -436,7 +481,6 @@
         // suprimert devient notre nouveau contenu de type de relation
 
         $supprimert = explode('rt;', $gettyperelation[1]);
-
 
 
         //on récupère le nom de chaque type de relations existant
@@ -459,6 +503,22 @@
 
             // crée une table de hachache de numero de relation sortante =====> type de relation
             $typerelation[$ri[0]] = $ri[3];
+        }
+
+
+         for ($i=1; $i<count($getrelationentrante2);$i++) {
+
+            //  decoupe chaque ligne de la table des relations entrante par un ";"
+            $ri = explode(';', $getrelationentrante2[$i]);
+
+            // crée une table de hachache de numero de relation entrante =====> poids
+            $relationentrante[$ri[0]] = $ri[4];
+
+            // crée une table de hachache de numero de relation entrante =====> identifiant du noeud
+            $relationentrante2[$ri[0]] = $ri[2];
+
+            // crée une table de hachache de numero de relation entrante =====> type de relation
+            $typerelation2[$ri[0]] = $ri[3];
         }
 
         for ($i=2; $i<count($getnoeuds);$i++) {
@@ -526,17 +586,6 @@
             //$node contient le nom des noeuds
         }
 
-
-        //Ralenti l'execution
-        //$node n'est plus utilisé
-        /*#je supprime de la table des noeuds, tous les noeuds qui ne sont pas dans la table de relation sortante
-        foreach ($node as $key => $value) {
-            if (!in_array($key, $relationsortante2)) {
-                w
-            }
-        }*/
-
-
         #création d'un tableau relation(identifiant) => nom de noeud
         foreach ($relationsortante2 as $key => $value) {
             $relationsortante2[$key] = $node[$value];
@@ -553,16 +602,16 @@
             }
         }
 
-        //print_r($raff);
-
+       
         foreach ($typerelation as $key => $value) {
             $typerelation[$key] = $type[$value];
         }
 
+       
+
         //print_r($typerelation);
         ksort($typerelation);
 
-        //print_r($typerelation);
 
         #tri par clé croissant
         ksort($relationsortante3);
@@ -572,13 +621,16 @@
         #tri par valeur croissant
         ksort($relationsortante2);
 
+
         ksort($relationsortante);
 
         foreach ($relationsortante2 as $key => $value) {
             $relationsortante2[$key] =  $relationsortante[$key].",".$relationsortante2[$key].",".$typerelation[$key].",".$relationsortante3[$key].";";
         }
+     
 
         return $relationsortante2;
+       
     }
 
     ///////////////
