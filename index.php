@@ -76,10 +76,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="tri.js"></script>
-  <script scr="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script type="text/javascript" scr="mscript.js"></script>
 
   <style>
@@ -152,10 +153,45 @@
       </p>
     </form>
 
+
+     <script type="text/javascript"  charset="utf-8">
+
+      //var disp = <?php echo '["' . implode('", "', $contenu) . '"]' ?>;
+
+
+      var disp2 = <?php echo '["' . implode('", "', $contenu2) . '"]' ?>;
+
+
+       
+    
+    
+/*
+  $( function() {
+    
+    $( "#tags" ).autocomplete({
+      source: disp
+    });
+  } );
+ 
+*/
+
+  $( function() {
+    
+    $( "#mot" ).autocomplete({
+      source: disp2,
+      minLength:3
+    });
+  } );
+
+ 
+  </script>
+
+
+
     <div id="conteneur">
       <div >
         <div >
-        	<form  method="post">
+        	<form  action="envoi.php" method="post">
             <p>Nombre d'élèment à afficher
             <br>
               <select name="mNbAffichage" id="mNbAffichage">
@@ -239,39 +275,6 @@
           ?>
       </div>
     </div>
-
-
-     <script type="text/javascript"  charset="utf-8">
-
-      //var disp = <?php echo '["' . implode('", "', $contenu) . '"]' ?>;
-
-
-      var disp2 = <?php echo '["' . implode('", "', $contenu2) . '"]' ?>;
-
-
-       
-    
-    
-/*
-  $( function() {
-    
-    $( "#tags" ).autocomplete({
-      source: disp
-    });
-  } );
- 
-*/
-
-  $( function() {
-    
-    $( "#mot" ).autocomplete({
-      source: disp2,
-      minLength:3
-    });
-  } );
-
- 
-  </script>
 
 
 
