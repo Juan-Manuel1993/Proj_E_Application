@@ -154,7 +154,7 @@
       </p>
     </form>
 
-
+<!--
      <script type="text/javascript"  charset="utf-8">
 
       //var disp = <?php echo '["' . implode('", "', $contenu) . '"]' ?>;
@@ -187,7 +187,7 @@
  
   </script>
 
-
+-->
 
     <div id="conteneur">
       <div >
