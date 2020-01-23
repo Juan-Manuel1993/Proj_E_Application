@@ -88,7 +88,7 @@
     $contenu = array();
     $r = array();
     // pas 4->5, 7->8,1->11
-    for ($i=1200000; $i <1300000; $i++) { 
+    for ($i=1200000; $i <1201000; $i++) { 
       $t = explode(';', $varr[$i]);
       $contenu2[]=$t[1];
     }
