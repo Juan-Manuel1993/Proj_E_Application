@@ -53,6 +53,7 @@
     } else {
         $word = 'chat';
         $data = getdata($word);
+        $_SESSION['mot'] ='chat';
     }
 
     $info = getInformations($word, $data);
