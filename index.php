@@ -93,6 +93,7 @@
 	  border-right: 5px solid transparent;
 	  border-bottom: 5px solid black;
 	}
+
 	.flecheAsc {
 	  width: 0;
 	  height: 0;
@@ -123,15 +124,41 @@
 	.avectri tr:nth-child(even) {background-color: #c6c3bd;border-bottom:1px solid #ccc;color:#444;}
 	.avectri tbody tr:hover:nth-child(odd) {background-color: #999690;color:#ffffff;}
 	.avectri tbody tr:hover:nth-child(even) {background-color: #999690;color:#ffffff;}
-
 }
 	.zebre tbody td:nth-child(3) {text-align:center;}
-
+  table,
+  td {
+      border: 1px solid #333;
+  }
+  thead,
+  tfoot {
+      background-color: #333;
+      color: #fff;
+  }
   </style>
+
+  <script>
+  $( document ).ready(function() {
+
+    jQuery("tr td" ).click( function () {
+      $.post("index.php",
+      {
+        mot: $(this).text(),
+      },
+      function(data,status){
+
+      });
+document.location.reload(false);
+
+    });
+});
+
+  </script>
   </head>
   <body>
 
     <h1 align="center">Jeux De Mots</h1>
+
     <form method="post">
 
       <p align="center">
@@ -145,6 +172,7 @@
     <div id="conteneur">
       <div >
         <div >
+
         	<form  method="post">
             <p>Nombre d'élèment à afficher
             <br>
@@ -205,14 +233,15 @@
 
                 if ($jdm_result[$i] != null) {
                     echo "
-								<tr bgcolor=".$color_bg.">
+								<tr  bgcolor=".$color_bg.">
 								<td>".$jdm_result[$i]->getWeight()."</td>
-								<td>".$jdm_result[$i]->getWord()."</td>
+								<td class=\"fund\">".$jdm_result[$i]->getWord()."</td>
 								</tr>
 							";
                 }
             }
           ?>
+
           </tbody>
         </table>
       </div>
