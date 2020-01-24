@@ -40,9 +40,10 @@
 
         return $tokens;
     }
-
+getmots();
     function getmots()
     {
+        ini_set('memory_limit', '10240M');
         $url = "http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt";
         $i =0;
         $nbMaxValue = 1000;
@@ -60,26 +61,22 @@
         $result = file_get_contents($url, false, $context);
         $result = utf8_encode($result);
 
-        $regexAll = '/([\n]*\d+;[^\n]+;)/u';
+        $regexAll = '/([\d]+;[^\n]+)/u';
         $regexSingle = '/\d+;(?P<name>[^\n]+);/u';
 
         $tokens = array();
 
-        preg_match_all($regexAll, $text, $tab);
+        preg_match_all($regexAll, $result, $tab);
 
         foreach ($tab[1] as $key => $value) {
             preg_match($regexSingle, $value, $token);
             $tokens[] = $token;
 
             $i++;
-            if ($i > $nbMaxValue) {
+            if ($i > $nbMaxValue && false) {
                 break;
             }
         }
-
-        return $tokens;
-
-        print_r($tokens);
 
         return $tokens;
     }
@@ -482,3 +479,11 @@
 
         return $new_array;
     }
+
+        ///////////////
+                /*
+        $word = 'chat';
+        echo 'result :';
+        print_r(getInformations($word, getdata($word)));
+*/
+                ////////////////
