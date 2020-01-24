@@ -57,11 +57,21 @@ if (isset($_POST['mot'])) {
 }
 
 $info = getInformations($word, $data);
-$content = getmots();
 
-foreach ($content as $key => $value) {
-    echo $value[1]."\n";
-}
+$contenu2 = getmots();
+
+  for($i=0;$i<1000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $contenu[]= $value;
+    }
+  }
+
+  $contenu = str_replace("\"", "'", $contenu);
+
+  //print_r($contenu);
+
+  
 
 ?>
 <!DOCTYPE html>
@@ -71,7 +81,10 @@ foreach ($content as $key => $value) {
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+ <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
   <script type="text/javascript" src="tri.js"></script>
   <script scr="https://code.jquery.com/jquery-3.4.1.min.js"></script>
@@ -278,6 +291,21 @@ $(document).load(function () {
       ?>
     </div>
   </div>
+   <script type="text/javascript"  charset="utf-8">
+
+  var disp = <?php echo '["' . implode('", "', $contenu) . '"]' ?>;
+  $( function() {
+    
+    $( "#mot" ).autocomplete({
+      source: disp,
+       minLength:3
+    });
+  } );
+
+
+  
+ 
+  </script>
 
 
 </body>

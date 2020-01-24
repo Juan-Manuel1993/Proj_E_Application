@@ -40,13 +40,13 @@
 
         return $tokens;
     }
-getmots();
+
     function getmots()
     {
         ini_set('memory_limit', '10240M');
         $url = "http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt";
-        $i =0;
-        $nbMaxValue = 1000;
+        $i =2;
+        $nbMaxValue = 100;
 
         $options = array(
             'http' => array(
