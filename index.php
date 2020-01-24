@@ -60,7 +60,7 @@ $info = getInformations($word, $data);
 
 $contenu2 = getmots();
 
-  for($i=0;$i<1000;$i++){
+  for($i=2;$i<400000;$i++){
     foreach ($contenu2[$i] as $key => $value) {
       if($key == 1)
       $contenu[]= $value;
