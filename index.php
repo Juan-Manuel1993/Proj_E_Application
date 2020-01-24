@@ -188,7 +188,6 @@ $(document).load(function () {
   <div id="conteneur">
     <div >
       <div >
-
         <form  method="post">
           <p>Nombre d'élèment à afficher
             <br>
