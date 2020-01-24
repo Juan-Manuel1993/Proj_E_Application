@@ -57,7 +57,11 @@ if (isset($_POST['mot'])) {
 }
 
 $info = getInformations($word, $data);
-getmots();
+$content = getmots();
+
+foreach ($content as $key => $value) {
+    echo $value[1]."\n";
+}
 
 ?>
 <!DOCTYPE html>
@@ -188,6 +192,7 @@ $(document).load(function () {
   <div id="conteneur">
     <div >
       <div >
+
         <form  method="post">
           <p>Nombre d'élèment à afficher
             <br>
