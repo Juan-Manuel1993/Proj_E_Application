@@ -27,11 +27,25 @@
         return $result;
     }
 
-    
+    function getToken($text, $regexAll, $regexSingle)
+    {
+        $tokens = array();
+
+        preg_match_all($regexAll, $text, $tab);
+
+        foreach ($tab[1] as $key => $value) {
+            preg_match($regexSingle, $value, $token);
+            $tokens[] = $token;
+        }
+
+        return $tokens;
+    }
+
     function getmots()
     {
-    
         $url = "http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt";
+        $i =0;
+        $nbMaxValue = 1000;
 
         $options = array(
             'http' => array(
@@ -45,12 +59,30 @@
 
         $result = file_get_contents($url, false, $context);
         $result = utf8_encode($result);
-      
 
-        return $result;
+        $regexAll = '/([\n]*\d+;[^\n]+;)/u';
+        $regexSingle = '/\d+;(?P<name>[^\n]+);/u';
+
+        $tokens = array();
+
+        preg_match_all($regexAll, $text, $tab);
+
+        foreach ($tab[1] as $key => $value) {
+            preg_match($regexSingle, $value, $token);
+            $tokens[] = $token;
+
+            $i++;
+            if ($i > $nbMaxValue) {
+                break;
+            }
+        }
+
+        return $tokens;
+
+        print_r($tokens);
+
+        return $tokens;
     }
-
-
 
     function getdef($arg)
     {
@@ -366,20 +398,7 @@
 
     ///////////////
 
-    function getToken($text, $regexAll, $regexSingle)
-    {
-        $tokens = array();
 
-        preg_match_all($regexAll, $text, $tab);
-
-
-        foreach ($tab[1] as $key => $value) {
-            preg_match($regexSingle, $value, $token);
-            $tokens[] = $token;
-        }
-
-        return $tokens;
-    }
 
     function getEntries($data)
     {
