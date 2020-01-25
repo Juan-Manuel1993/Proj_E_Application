@@ -8,11 +8,13 @@ if (empty(session_id())) {
 
 class Word
 {
-    public $weight;
+    private $weight;
     private $word;
+    private $eid=0;
 
-    public function __construct($weight, $word)
+    public function __construct($eid, $weight, $word)
     {
+        $this->setId($eid);
         $this->setWeight($weight);
         $this->setWord($word);
     }
@@ -35,6 +37,16 @@ class Word
     public function setWord($word)
     {
         $this->word = $word;
+    }
+
+    public function getId()
+    {
+        return $this->eid;
+    }
+
+    public function setId($eid)
+    {
+        $this->eid = $eid;
     }
 }
 
@@ -150,12 +162,8 @@ $news = getWordInfo($word, $data);
 </div>
 
 <form method="post">
-
   <p align="center">
-
-    <input type="text" id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> />
-    <input type="submit" id="formsubmit" value="Rechercher">
-
+    <input class="form-control form-control-sm mr-3 w-25" type="text" id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> />
   </p>
 </form>
 
@@ -180,7 +188,7 @@ $news = getWordInfo($word, $data);
             <tr>
               <th class="th-sm">Importance
               </th>
-              <th class="w-auto">Mot
+              <th class="w-auto">Mot sortant
               </tr>
             </thead>
             <tbody>
@@ -190,13 +198,14 @@ $news = getWordInfo($word, $data);
 
                   foreach ($rsortantes as $key => $tab) {
                       $word = new Word(
+                          $tab['node'],
                           getEntrie($news['entries'], $tab['node'])['w'],
                           getEntrie($news['entries'], $tab['node'])['name']
                       );
 
                       if (!array_key_exists(getEntrie($news['entries'], $tab['node'])['eid'], $jdm_result)) {
                           echo "
-                    <tr  onclick=\"search(this)\">
+                    <tr id=".$word->getId()." onclick=\"search(this)\">
                     <td>".$word->getWeight()."</td>
                     <td>".$word->getWord()."</td>
                     </tr>
@@ -211,7 +220,7 @@ $news = getWordInfo($word, $data);
               <tr>
                 <th>Importance
                 </th>
-                <th>Mot
+                <th>Mot sortant
                 </th>
               </tr>
             </tfoot>
@@ -223,7 +232,7 @@ $news = getWordInfo($word, $data);
               <tr>
                 <th class="th-sm">Importance
                 </th>
-                <th class="w-auto">Mot
+                <th class="w-auto">Mot entrant
                 </tr>
               </thead>
               <tbody>
@@ -233,13 +242,14 @@ $news = getWordInfo($word, $data);
 
                     foreach ($rentrantes as $key => $tab) {
                         $word = new Word(
+                            $tab['node'],
                             getEntrie($news['entries'], $tab['node'])['w'],
                             getEntrie($news['entries'], $tab['node'])['name']
                         );
 
                         if (!array_key_exists(getEntrie($news['entries'], $tab['node'])['eid'], $jdm_result)) {
                             echo "
-                      <tr  onclick=\"search(this)\">
+                      <tr id=".$word->getId()." onclick=\"search(this)\">
                       <td>".$word->getWeight()."</td>
                       <td>".$word->getWord()."</td>
                       </tr>
@@ -254,7 +264,7 @@ $news = getWordInfo($word, $data);
                 <tr>
                   <th>Importance
                   </th>
-                  <th>Mot
+                  <th>Mot entrant
                   </th>
                 </tr>
               </tfoot>
