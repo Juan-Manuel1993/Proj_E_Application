@@ -27,6 +27,47 @@
         return $result;
     }
 
+    
+    function getmots()
+    {
+        ini_set('memory_limit', '10240M');
+        $url = "http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt";
+        $i =2;
+        $nbMaxValue = 100;
+
+        $options = array(
+            'http' => array(
+                'header'  => "Content-type: application/x-www-form-urlencoded",
+                'method'  => 'POST',
+                'content' => $postfields,
+            ),
+        );
+
+        $context = stream_context_create($options);
+
+        $result = file_get_contents($url, false, $context);
+        $result = utf8_encode($result);
+
+        $regexAll = '/([\d]+;[^\n]+)/u';
+        $regexSingle = '/\d+;(?P<name>[^\n]+);/u';
+
+        $tokens = array();
+
+        preg_match_all($regexAll, $result, $tab);
+
+        foreach ($tab[1] as $key => $value) {
+            preg_match($regexSingle, $value, $token);
+            $tokens[] = $token;
+
+            $i++;
+            if ($i > $nbMaxValue && false) {
+                break;
+            }
+        }
+
+        return $tokens;
+    }
+
     function getdef($arg)
     {
         // récupérer la définition du mot

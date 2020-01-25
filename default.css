@@ -12,3 +12,184 @@ div.spacer, permet de faire deux colonne dans #container
 
 div.spacer{clear:both; height:10px; display:block;}
 #footer{width:auto; display:block; height:24px;}
+
+
+body
+
+{
+
+            width :100% ;
+
+}
+
+img 
+
+{
+	max-width:100% ;
+	height: auto ;
+
+}
+ 
+
+#global
+
+{
+
+            width :80% ;
+
+            margin :auto ;
+
+            padding :25px ;
+
+            background :#3c3c3c ;
+
+}
+
+ 
+
+header
+
+{
+
+            width :100% ;
+
+}
+
+ 
+
+#menu-gauche
+
+{
+
+            width :20% ;
+
+            float :left ;
+
+}
+
+ 
+
+#contenu
+
+{
+
+            width :60% ;
+
+            float :left ;
+
+}
+
+ 
+
+#sidebar-droite
+
+{
+
+            width :20% ;
+
+            float :left ;
+
+}
+
+ 
+
+footer
+
+{
+
+            width :100%
+
+}
+
+@media(min-width: 768px) and (max-width: 1388px)
+
+{
+
+ 
+
+#global
+
+{
+
+            width :100% ;
+
+            padding :0px ;
+
+}
+
+ 
+
+#menu-gauche
+
+{
+
+            width :100% ;           
+
+}
+
+ 
+
+#contenu
+
+{
+
+            width :80% ;
+
+}
+
+ 
+
+}
+
+
+@media(max-width: 767px)
+
+{ 
+
+ 
+
+#global
+
+{
+
+            width :100% ;
+
+            padding :0px ;
+
+}
+
+ 
+
+#menu-gauche
+
+{
+
+            width :100% ;
+
+}
+
+ 
+
+#contenu
+
+{
+
+            width :100% ;
+
+}
+
+ 
+
+#sidebar-droite
+
+{
+
+            width :100% ;
+
+}
+
+ 
+
+ 
+
+}

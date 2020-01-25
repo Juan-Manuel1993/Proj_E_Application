@@ -70,6 +70,78 @@ if (isset($_POST['mot'])) {
 
 $news = getWordInfo($word, $data);
 
+
+$info = getInformations($word, $data);
+
+$contenu2 = getmots();
+
+  for($i=2;$i<1000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $contenu[]= $value;
+    }
+  }
+
+  $contenu = str_replace("\"", "'", $contenu);
+
+for($i=10000;$i<11000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $content[]= $value;
+    }
+  }
+  
+
+  for($i=1000;$i<4000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $conten[]= $value;
+    }
+  }
+  
+
+ for($i=100000;$i<103000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $conte[]= $value;
+    }
+  }
+  
+
+
+ for($i=300000;$i<303000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $cont[]= $value;
+    }
+  }
+  
+
+
+ for($i=600000;$i<603000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $con[]= $value;
+    }
+  }
+  
+  
+
+ for($i=900000;$i<903000;$i++){
+    foreach ($contenu2[$i] as $key => $value) {
+      if($key == 1)
+      $co[]= $value;
+    }
+  }
+  
+  
+  
+  
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
