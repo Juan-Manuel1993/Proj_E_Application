@@ -115,30 +115,30 @@ $news = getWordInfo($word, $data);
 
   <script>
 
-$(window).on("load",function(){
-  $(".loader").fadeOut("fast");
-});
-
-function search(row) {
-
-  $.post("index.php",
-  {
-    mot: row.getElementsByTagName("td")[1].innerHTML,
-  },
-  function(data,status){
-
+  $(window).on("load",function(){
+    $(".loader").fadeOut("fast");
   });
 
-  document.location.reload(false);
-};
+  function search(row) {
 
-$(document).ready(function() {
-  $('#dtBasicExample').DataTable({
-    "order": [[ 0, "desc" ]]
+    $.post("index.php",
+    {
+      mot: row.getElementsByTagName("td")[1].innerHTML,
+    },
+    function(data,status){
+
     });
-  $('.dataTables_length').addClass('bs-select');
 
-});
+    document.location.reload(false);
+  };
+
+  $(document).ready(function() {
+    $('div table').DataTable({
+      "order": [[ 0, "desc" ]]
+    });
+    $('.dataTables_length').addClass('bs-select');
+
+  });
 
 
 </script>
@@ -172,49 +172,99 @@ $(document).ready(function() {
     ?>
   </div>
 
-  <table id="dtBasicExample" class="table table-striped table-bordered table-sm" cellspacing="0" width="100%">
-    <thead>
-      <tr>
-        <th class="th-sm">Importance
-        </th>
-        <th class="th-sm">Mot
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        if ($data !== null) {
-            $rsortantes = $news['RSortantes'];
-
-            foreach ($rsortantes as $key => $tab) {
-                $word = new Word(
-                    getEntrie($news['entries'], $tab['node'])['w'],
-                    getEntrie($news['entries'], $tab['node'])['name']
-                );
-
-                if (!array_key_exists(getEntrie($news['entries'], $tab['node'])['eid'], $jdm_result)) {
-                    echo "
-              <tr  onclick=\"search(this)\">
-              <td>".$word->getWeight()."</td>
-              <td>".$word->getWord()."</td>
+  <div class="container">
+    <div class="row">
+      <div class="col">
+        <table class="table table-hover table-striped table-bordered table-sm" cellspacing="0">
+          <thead>
+            <tr>
+              <th class="th-sm">Importance
+              </th>
+              <th class="w-auto">Mot
               </tr>
-              ";
-                    $jdm_result[getEntrie($news['entries'], $tab['node'])['eid']] = $word;
+            </thead>
+            <tbody>
+              <?php
+              if ($data !== null) {
+                  $rsortantes = $news['RSortantes'];
+
+                  foreach ($rsortantes as $key => $tab) {
+                      $word = new Word(
+                          getEntrie($news['entries'], $tab['node'])['w'],
+                          getEntrie($news['entries'], $tab['node'])['name']
+                      );
+
+                      if (!array_key_exists(getEntrie($news['entries'], $tab['node'])['eid'], $jdm_result)) {
+                          echo "
+                    <tr  onclick=\"search(this)\">
+                    <td>".$word->getWeight()."</td>
+                    <td>".$word->getWord()."</td>
+                    </tr>
+                    ";
+                          $jdm_result[getEntrie($news['entries'], $tab['node'])['eid']] = $word;
+                      }
+                  }
+              }
+              ?>
+            </tbody>
+            <tfoot>
+              <tr>
+                <th>Importance
+                </th>
+                <th>Mot
+                </th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="col">
+          <table class="table table-hover table-striped table-bordered table-sm" cellspacing="0">
+            <thead>
+              <tr>
+                <th class="th-sm">Importance
+                </th>
+                <th class="w-auto">Mot
+                </tr>
+              </thead>
+              <tbody>
+                <?php
+                if ($data !== null) {
+                    $rentrantes = $news['REntrantes'];
+
+                    foreach ($rentrantes as $key => $tab) {
+                        $word = new Word(
+                            getEntrie($news['entries'], $tab['node'])['w'],
+                            getEntrie($news['entries'], $tab['node'])['name']
+                        );
+
+                        if (!array_key_exists(getEntrie($news['entries'], $tab['node'])['eid'], $jdm_result)) {
+                            echo "
+                      <tr  onclick=\"search(this)\">
+                      <td>".$word->getWeight()."</td>
+                      <td>".$word->getWord()."</td>
+                      </tr>
+                      ";
+                            $jdm_result[getEntrie($news['entries'], $tab['node'])['eid']] = $word;
+                        }
+                    }
                 }
-            }
-        }
-        ?>
+                ?>
+              </tbody>
+              <tfoot>
+                <tr>
+                  <th>Importance
+                  </th>
+                  <th>Mot
+                  </th>
+                </tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
 
-      </tbody>
-      <tfoot>
-        <tr>
-          <th>Importance
-          </th>
-          <th>Mot
-          </th>
-        </tr>
-      </tfoot>
-    </table>
-  </div>
-</body>
 
-</html>
+  </body>
+
+  </html>
