@@ -4,30 +4,45 @@
 
     function getdata($arg)
     {
-        $postfields = http_build_query(array(
-            'gotermrel' => $arg
+        $cache = 'cache/'.$arg.'.appcache';
+        $expire = time()-3600;
+
+        if (file_exists($cache) && filemtime($cache) > $expire) {
+            ob_start();
+            readfile($cache);
+            $data = ob_get_contents();
+            ob_end_clean();
+
+            return $data;
+        } else {
+            $start = time();
+            $postfields = http_build_query(array(
+          'gotermrel' => $arg
         ));
 
-        $url = "http://www.jeuxdemots.org/rezo-dump.php";
+            $url = "http://www.jeuxdemots.org/rezo-dump.php";
 
-        $options = array(
-            'http' => array(
-                'header'  => "Content-type: application/x-www-form-urlencoded",
-                'method'  => 'POST',
-                'content' => $postfields,
-            ),
+            $options = array(
+          'http' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded",
+            'method'  => 'POST',
+            'content' => $postfields,
+          ),
         );
 
-        $context = stream_context_create($options);
+            $context = stream_context_create($options);
 
-        $result = file_get_contents($url, false, $context);
-        $result = utf8_encode($result);
-        $result = html_entity_decode($result, ENT_QUOTES, "UTF-8");
+            $result = file_get_contents($url, false, $context);
+            $result = utf8_encode($result);
+            $data = html_entity_decode($result, ENT_QUOTES, "UTF-8");
 
-        return $result;
+            file_put_contents($cache, $data);
+
+            return $data;
+        }
     }
 
-    
+
     function getmots()
     {
         ini_set('memory_limit', '10240M');
