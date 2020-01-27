@@ -251,7 +251,7 @@ input[type=submit] {
     $.get("autoc.txt",
     function(data, status){
       const regex = /[^\n;^\d]+/g;
-      var tags = decodeURIComponent(escape(data)).match(regex);
+      var tags = data.match(regex);
 
       autocomplete(document.getElementById("mot"), tags.splice(0,54334));
 
