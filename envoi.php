@@ -2,6 +2,17 @@
 
 session_start();
 
+function getRelationsTypes($data)
+{
+    $string = explode("// les types de relations (Relation Types) : rt;rtid;'trname';'trgpname';'rthelp'", $data);
+    $string = explode("// les relations sortantes : r;rid;node1;node2;type;w", $string[1]);
+
+    $regexAll = '/([\n]*rt;\d+;[^\n]+;[^\n]+;[^\n]*)/u';
+    $regexSingle = '/rt;(?P<rtid>\d+);\'(?P<trname>[^\n]+)\';(?P<trgpname>[^\n]+);(?P<rthelp>[^\n]*)/u';
+
+    return getToken($string[0], $regexAll, $regexSingle);
+}
+
 function getdata($arg)
 {
     $cache = 'cache/'.$arg.'.appcache';
@@ -151,6 +162,8 @@ function getWordInfo($word, $data)
     $regexSingle = '/r;\d+;(?P<node>\d+);\d+;(?P<type>\d+);(?P<w>\d+)/u';
 
     $info['REntrantes'] = getToken($string[0], $regexAll, $regexSingle);
+
+    $info['RTypes'] = getRelationsTypes($data);
 
     return $info;
 }

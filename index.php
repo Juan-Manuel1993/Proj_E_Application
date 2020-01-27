@@ -25,76 +25,7 @@ if (isset($_POST['mot'])) {
 }
 
 $news = getWordInfo($word, $data);
-/*
-$contenu2 = getmots();
 
-/*$contenu2 = getmots();
-
-  for ($i=2;$i<1000;$i++) {
-      foreach ($contenu2[$i] as $key => $value) {
-          if ($key == 1) {
-              $contenu[]= $value;
-          }
-      }
-  }
-
-  $contenu = str_replace("\"", "'", $contenu);
-
-for ($i=10000;$i<11000;$i++) {
-    foreach ($contenu2[$i] as $key => $value) {
-        if ($key == 1) {
-            $content[]= $value;
-        }
-    }
-}
-
-
-  for ($i=1000;$i<4000;$i++) {
-      foreach ($contenu2[$i] as $key => $value) {
-          if ($key == 1) {
-              $conten[]= $value;
-          }
-      }
-  }
-
-
- for ($i=100000;$i<103000;$i++) {
-     foreach ($contenu2[$i] as $key => $value) {
-         if ($key == 1) {
-             $conte[]= $value;
-         }
-     }
- }
-
-
-
- for ($i=300000;$i<303000;$i++) {
-     foreach ($contenu2[$i] as $key => $value) {
-         if ($key == 1) {
-             $cont[]= $value;
-         }
-     }
- }
-
-
-
- for ($i=600000;$i<603000;$i++) {
-     foreach ($contenu2[$i] as $key => $value) {
-         if ($key == 1) {
-             $con[]= $value;
-         }
-     }
- }
-
-
-
- for ($i=900000;$i<903000;$i++) {
-     foreach ($contenu2[$i] as $key => $value) {
-         if ($key == 1) {
-             $co[]= $value;
-         }
-     }
- }*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -245,15 +176,24 @@ input[type=submit] {
 
   }
 
-  $(document).ready(function() {
+  function getRelationType(relationstypes,rtid){
+    $entrie = null;
+    relationstypes.forEach((item, index) => {
+      if (item.rtid == rtid) {
+        $entrie = item;
+      }
+    })
+    return $entrie;
+	}
 
+  $(document).ready(function() {
 
     $.get("autoc.txt",
     function(data, status){
       const regex = /[^\n;^\d]+/g;
       var tags = data.match(regex);
 
-      autocomplete(document.getElementById("mot"), tags.splice(0,54334));
+      autocomplete(document.getElementById("mot"), tags.splice(0,54334).sort());
 
     });
 
@@ -270,7 +210,7 @@ input[type=submit] {
 
       var entrie = getEntrie(json.entries, val.node);
       if(entrie != null){
-        dtableSortant.row.add( [ entrie.w ,entrie.name ] ).node().id = val.node;
+        dtableSortant.row.add( [ val.w ,entrie.name, getRelationType(json.RTypes,val.type).trname ] ).node().id = val.node;
       }
     });
 
@@ -283,6 +223,20 @@ input[type=submit] {
 
     dtableSortant.draw(false);
     dtableEntrante.draw(false);
+
+    var table = $('#TSortant').DataTable();
+
+        $('#TSortant tbody').on('click', 'tr', function(row) {
+          $.post("index.php",
+          {
+            mot: this.getElementsByTagName("td")[1].innerHTML,
+          },
+          function(data,status){
+
+          });
+
+          document.location.reload(false);
+        } );
 
   });
 
@@ -395,10 +349,6 @@ input[type=submit] {
   <input type="submit">
 </form>
 
-<div class="loader">
-  <img src="loading.gif" />
-</div>
-
 <div id="conteneur">
   <div>
     <h2>Mot de la recherche : <h1><?php echo $word; ?></h1> </h2>
@@ -421,6 +371,9 @@ input[type=submit] {
               <th class="th-sm">Importance
               </th>
               <th class="w-auto">Mot sortant
+              </th>
+              <th class="w-auto">Type
+                </th>
               </tr>
             </thead>
             <tbody  >
@@ -431,6 +384,8 @@ input[type=submit] {
                 <th>Importance
                 </th>
                 <th>Mot sortant
+                </th>
+                <th>Type
                 </th>
               </tr>
             </tfoot>
