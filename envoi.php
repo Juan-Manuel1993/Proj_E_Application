@@ -155,6 +155,36 @@ function getWordInfo($word, $data)
     return $info;
 }
 
+function getAutocomplete()
+{
+    ini_set('memory_limit', '10240M');
+    $url = "http://www.jeuxdemots.org/JDM-LEXICALNET-FR/01012020-LEXICALNET-JEUXDEMOTS-ENTRIES.txt";
+
+    $options = array(
+        'http' => array(
+            'header'  => "Content-type: application/x-www-form-urlencoded",
+            'method'  => 'POST',
+            'content' => $postfields,
+        ),
+    );
+    $time_start = microtime(true);
+    $context = stream_context_create($options);
+
+    $result = file_get_contents($url, false, $context);
+    $result = utf8_encode($result);
+
+    $regexAll = '/([\d]+;[^\n]+)/u';
+    $regexSingle = '/\d+;(?P<name>[^\n]+);/u';
+
+
+    $tokens = getToken($result, $regexAll, $regexSingle);
+    $time_end = microtime(true);
+    $time = $time_end - $time_start;
+
+    echo "Ne rien faire pendant $time secondes\n";
+    return $tokens;
+}
+
 function getdef($arg)
 {
     // récupérer la définition du mot
