@@ -25,8 +25,8 @@ if (isset($_POST['mot'])) {
 }
 
 $news = getWordInfo($word, $data);
-
-/*$contenu2 = getmots();
+/*
+$contenu2 = getmots();
 
   for ($i=2;$i<1000;$i++) {
       foreach ($contenu2[$i] as $key => $value) {
@@ -35,6 +35,7 @@ $news = getWordInfo($word, $data);
           }
       }
   }
+
 
   $contenu = str_replace("\"", "'", $contenu);
 
@@ -220,11 +221,51 @@ for ($i=10000;$i<11000;$i++) {
   <img src="loading.gif" />
 </div>
 
+<!--
 <form method="post">
   <p align="center">
-    <input class="form-control form-control-sm mr-3 w-25" type="text" id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> />
+    <input class="form-control form-control-sm mr-3 w-25" type="text" id="mot" name="mot" value=<?php /*echo $_SESSION['mot'];*/ ?> / aria-label="Search">
   </p>
 </form>
+
+-->
+
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
+<div class="container">
+    <br/>
+	<div class="row justify-content-center">
+                        <div class="col-12 col-md-10 col-lg-8">
+                            <form class="card card-sm" method = "post">
+                                <div class="card-body row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <i class="fas fa-search h4 text-body"></i>
+                                    </div>
+                                
+                                    <!--end of col-->
+                                    <div class="col">
+
+                                        <input class="form-control form-control-lg form-control-borderless" type="search"  id="mot" name="mot" value=<?php echo $_SESSION['mot']; ?> / aria-label="Search">
+                                   
+                                    </div>
+                                
+                                    <!--end of col-->
+                                    <div class="col-auto">
+                                        <button class="btn btn-lg btn-success" type="submit">Search</button>
+                                    </div>
+
+                                
+                                    <!--end of col-->
+                                </div>
+                            </form>
+                        </div>
+                    
+                        <!--end of col-->
+                   </div>
+</div>
+
+
+
 
 <div id="conteneur">
   <div>
