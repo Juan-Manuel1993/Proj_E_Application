@@ -26,7 +26,7 @@ if (isset($_POST['mot'])) {
 
 $news = getWordInfo($word, $data);
 
-$contenu2 = getmots();
+/*$contenu2 = getmots();
 
   for ($i=2;$i<1000;$i++) {
       foreach ($contenu2[$i] as $key => $value) {
@@ -92,7 +92,7 @@ for ($i=10000;$i<11000;$i++) {
              $co[]= $value;
          }
      }
- }
+ }*/
 ?>
 <!DOCTYPE html>
 <html lang="en">
