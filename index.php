@@ -6,54 +6,10 @@ if (empty(session_id())) {
     session_start();
 }
 
-class Word
-{
-    private $weight;
-    private $word;
-    private $eid=0;
-
-    public function __construct($eid, $weight, $word)
-    {
-        $this->setId($eid);
-        $this->setWeight($weight);
-        $this->setWord($word);
-    }
-
-    public function getWeight()
-    {
-        return $this->weight;
-    }
-
-    public function setWeight($weight)
-    {
-        $this->weight = $weight;
-    }
-
-    public function getWord()
-    {
-        return $this->word;
-    }
-
-    public function setWord($word)
-    {
-        $this->word = $word;
-    }
-
-    public function getId()
-    {
-        return $this->eid;
-    }
-
-    public function setId($eid)
-    {
-        $this->eid = $eid;
-    }
-}
-
-$jdm_result = array();
-
 $data = "";
 $word = "";
+
+//$time_start = microtime(true);
 
 if (isset($_POST['mot'])) {
     $_SESSION['mot'] = $_POST['mot'];
@@ -70,78 +26,73 @@ if (isset($_POST['mot'])) {
 
 $news = getWordInfo($word, $data);
 
-
-$info = getInformations($word, $data);
-
 $contenu2 = getmots();
 
-  for($i=2;$i<1000;$i++){
-    foreach ($contenu2[$i] as $key => $value) {
-      if($key == 1)
-      $contenu[]= $value;
-    }
+  for ($i=2;$i<1000;$i++) {
+      foreach ($contenu2[$i] as $key => $value) {
+          if ($key == 1) {
+              $contenu[]= $value;
+          }
+      }
   }
 
   $contenu = str_replace("\"", "'", $contenu);
 
-for($i=10000;$i<11000;$i++){
+for ($i=10000;$i<11000;$i++) {
     foreach ($contenu2[$i] as $key => $value) {
-      if($key == 1)
-      $content[]= $value;
+        if ($key == 1) {
+            $content[]= $value;
+        }
     }
+}
+
+
+  for ($i=1000;$i<4000;$i++) {
+      foreach ($contenu2[$i] as $key => $value) {
+          if ($key == 1) {
+              $conten[]= $value;
+          }
+      }
   }
-  
-
-  for($i=1000;$i<4000;$i++){
-    foreach ($contenu2[$i] as $key => $value) {
-      if($key == 1)
-      $conten[]= $value;
-    }
-  }
-  
-
- for($i=100000;$i<103000;$i++){
-    foreach ($contenu2[$i] as $key => $value) {
-      if($key == 1)
-      $conte[]= $value;
-    }
-  }
-  
 
 
- for($i=300000;$i<303000;$i++){
-    foreach ($contenu2[$i] as $key => $value) {
-      if($key == 1)
-      $cont[]= $value;
-    }
-  }
-  
-
-
- for($i=600000;$i<603000;$i++){
-    foreach ($contenu2[$i] as $key => $value) {
-      if($key == 1)
-      $con[]= $value;
-    }
-  }
-  
-  
-
- for($i=900000;$i<903000;$i++){
-    foreach ($contenu2[$i] as $key => $value) {
-      if($key == 1)
-      $co[]= $value;
-    }
-  }
-  
-  
-  
-  
+ for ($i=100000;$i<103000;$i++) {
+     foreach ($contenu2[$i] as $key => $value) {
+         if ($key == 1) {
+             $conte[]= $value;
+         }
+     }
+ }
 
 
 
+ for ($i=300000;$i<303000;$i++) {
+     foreach ($contenu2[$i] as $key => $value) {
+         if ($key == 1) {
+             $cont[]= $value;
+         }
+     }
+ }
 
 
+
+ for ($i=600000;$i<603000;$i++) {
+     foreach ($contenu2[$i] as $key => $value) {
+         if ($key == 1) {
+             $con[]= $value;
+         }
+     }
+ }
+
+
+
+ for ($i=900000;$i<903000;$i++) {
+     foreach ($contenu2[$i] as $key => $value) {
+         if ($key == 1) {
+             $co[]= $value;
+         }
+     }
+ }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -216,14 +167,50 @@ for($i=10000;$i<11000;$i++){
     document.location.reload(false);
   };
 
+  function getEntrie(entries, eid)
+  {
+
+    $entrie = null;
+    entries.forEach((item, index) => {
+      if (item.eid == eid) {
+        $entrie = item;
+      }
+    })
+    return $entrie;
+
+  }
+
   $(document).ready(function() {
+
     $('div table').DataTable({
       "order": [[ 0, "desc" ]]
     });
     $('.dataTables_length').addClass('bs-select');
 
-  });
+    var json = <?php echo json_encode($news); ?>;
+      var dtableSortant = $('#TSortant').DataTable();
+      var dtableEntrante = $('#TEntrant').DataTable();
 
+      $.each(json.RSortantes, function(key, val) {
+
+        var entrie = getEntrie(json.entries, val.node);
+        if(entrie != null){
+          dtableSortant.row.add( [ entrie.w ,entrie.name ] ).node().id = val.node;
+        }
+      });
+
+      $.each(json.REntrantes, function(key, val) {
+        var entrie = getEntrie(json.entries, val.node);
+        if(entrie != null){
+          dtableEntrante.row.add( [ entrie.w ,entrie.name ] ).node().id = val.node;
+        }
+      });
+
+      dtableSortant.draw(false);
+      dtableEntrante.draw(false);
+
+
+  });
 
 </script>
 
@@ -255,7 +242,7 @@ for($i=10000;$i<11000;$i++){
   <div class="container">
     <div class="row">
       <div class="col">
-        <table class="table table-hover table-striped table-bordered table-sm" cellspacing="0">
+        <table id="TSortant" class="table table-hover table-striped table-bordered table-sm" cellspacing="0">
           <thead>
             <tr>
               <th class="th-sm">Importance
@@ -263,30 +250,8 @@ for($i=10000;$i<11000;$i++){
               <th class="w-auto">Mot sortant
               </tr>
             </thead>
-            <tbody>
-              <?php
-              if ($data !== null) {
-                  $rsortantes = $news['RSortantes'];
+            <tbody  >
 
-                  foreach ($rsortantes as $key => $tab) {
-                      $word = new Word(
-                          $tab['node'],
-                          getEntrie($news['entries'], $tab['node'])['w'],
-                          getEntrie($news['entries'], $tab['node'])['name']
-                      );
-
-                      if (!array_key_exists(getEntrie($news['entries'], $tab['node'])['eid'], $jdm_result)) {
-                          echo "
-                    <tr id=".$word->getId()." onclick=\"search(this)\">
-                    <td>".$word->getWeight()."</td>
-                    <td>".$word->getWord()."</td>
-                    </tr>
-                    ";
-                          $jdm_result[getEntrie($news['entries'], $tab['node'])['eid']] = $word;
-                      }
-                  }
-              }
-              ?>
             </tbody>
             <tfoot>
               <tr>
@@ -299,7 +264,7 @@ for($i=10000;$i<11000;$i++){
           </table>
         </div>
         <div class="col">
-          <table class="table table-hover table-striped table-bordered table-sm" cellspacing="0">
+          <table id="TEntrant" class="table table-hover table-striped table-bordered table-sm" cellspacing="0">
             <thead>
               <tr>
                 <th class="th-sm">Importance
@@ -308,29 +273,7 @@ for($i=10000;$i<11000;$i++){
                 </tr>
               </thead>
               <tbody>
-                <?php
-                if ($data !== null) {
-                    $rentrantes = $news['REntrantes'];
 
-                    foreach ($rentrantes as $key => $tab) {
-                        $word = new Word(
-                            $tab['node'],
-                            getEntrie($news['entries'], $tab['node'])['w'],
-                            getEntrie($news['entries'], $tab['node'])['name']
-                        );
-
-                        if (!array_key_exists(getEntrie($news['entries'], $tab['node'])['eid'], $jdm_result)) {
-                            echo "
-                      <tr id=".$word->getId()." onclick=\"search(this)\">
-                      <td>".$word->getWeight()."</td>
-                      <td>".$word->getWord()."</td>
-                      </tr>
-                      ";
-                            $jdm_result[getEntrie($news['entries'], $tab['node'])['eid']] = $word;
-                        }
-                    }
-                }
-                ?>
               </tbody>
               <tfoot>
                 <tr>
