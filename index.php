@@ -195,9 +195,9 @@ $typesR_list = getRelationsTypesAUTOC($data);
     $.get("autoc.txt",
     function(data, status){
       const regex = /[^\n;^\d]+/g;
-      var tags = data.match(regex);
+      var tags = data.match(regex).splice(0,54334).sort();
 
-      autocomplete(document.getElementById("mot"), tags.splice(0,54334).sort());
+      autocomplete(document.getElementById("mot"), tags);
 
     });
 
@@ -222,7 +222,7 @@ $typesR_list = getRelationsTypesAUTOC($data);
     var json = <?php echo json_encode($news); ?>;
     var dtableSortant = $('#TSortant').DataTable();
     var dtableEntrante = $('#TEntrant').DataTable();
-console.log(json);
+
     $.each(json.RSortantes, function(key, val) {
 
       var entrie = getEntrie(json.entries, val.node);
